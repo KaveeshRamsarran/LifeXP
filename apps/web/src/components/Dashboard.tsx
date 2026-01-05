@@ -96,7 +96,8 @@ const difficultyXp: Record<string, number> = {
 export default function Dashboard() {
   const { user, updateUserStats } = useAuthStore();
   const { 
-    tasks, quests, mysteryTasks, fetchData, completeTask, completeQuest, completeMysteryTask
+    tasks, quests, mysteryTasks, fetchData, completeTask, completeQuest, completeMysteryTask,
+    totalTasksCompleted, currentStreak
   } = useGameStore();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [xpPopups, setXpPopups] = useState<Array<{ id: string; xp: number; x: number; y: number }>>([]);
@@ -466,15 +467,36 @@ export default function Dashboard() {
             </div>
             <div>
               <h3 className="font-elden font-bold text-[#c9a227]">Achievements</h3>
-              <p className="text-sm text-[#8b8b7a]">3/12 Unlocked</p>
+              <p className="text-sm text-[#8b8b7a]">
+                {(() => {
+                  // Calculate unlocked achievements
+                  let unlocked = 0;
+                  if (totalTasksCompleted >= 1) unlocked++;
+                  if (user.level >= 2) unlocked++;
+                  if (currentStreak >= 3) unlocked++;
+                  if (totalTasksCompleted >= 10) unlocked++;
+                  if (user.xp >= 500) unlocked++;
+                  if (currentStreak >= 7) unlocked++;
+                  if (user.level >= 5) unlocked++;
+                  if (totalTasksCompleted >= 100) unlocked++;
+                  if (user.xp >= 2000) unlocked++;
+                  if (user.level >= 10) unlocked++;
+                  if (currentStreak >= 30) unlocked++;
+                  if (user.xp >= 10000) unlocked++;
+                  if (user.level >= 25) unlocked++;
+                  if (currentStreak >= 365) unlocked++;
+                  if (totalTasksCompleted >= 1000) unlocked++;
+                  return `${unlocked}/15 Unlocked`;
+                })()}
+              </p>
             </div>
           </div>
           <div className="mt-3 flex gap-2">
-            {['🏆', '⭐', '🔥'].map((emoji, i) => (
-              <span key={i} className="text-2xl">{emoji}</span>
-            ))}
-            <span className="text-2xl opacity-30">🎯</span>
-            <span className="text-2xl opacity-30">💎</span>
+            <span className={`text-2xl ${totalTasksCompleted >= 1 ? '' : 'opacity-30'}`}>🏆</span>
+            <span className={`text-2xl ${user.level >= 2 ? '' : 'opacity-30'}`}>⭐</span>
+            <span className={`text-2xl ${currentStreak >= 3 ? '' : 'opacity-30'}`}>🔥</span>
+            <span className={`text-2xl ${totalTasksCompleted >= 10 ? '' : 'opacity-30'}`}>🎯</span>
+            <span className={`text-2xl ${user.xp >= 500 ? '' : 'opacity-30'}`}>💎</span>
           </div>
         </div>
 
@@ -489,9 +511,9 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-4xl font-elden font-bold text-[#a0522d]">7</span>
+            <span className="text-4xl font-elden font-bold text-[#a0522d]">{currentStreak}</span>
             <span className="text-[#8b8b7a]">days</span>
-            <FlameIcon className="w-6 h-6 text-[#a0522d] ml-auto animate-pulse" />
+            <FlameIcon className={`w-6 h-6 text-[#a0522d] ml-auto ${currentStreak > 0 ? 'animate-pulse' : 'opacity-30'}`} />
           </div>
         </div>
 
@@ -501,15 +523,15 @@ export default function Dashboard() {
               <SwordIcon className="w-8 h-8 text-[#6b5b7c]" />
             </div>
             <div>
-              <h3 className="font-elden font-bold text-[#6b5b7c]">Power Level</h3>
-              <p className="text-sm text-[#8b8b7a]">Your overall strength</p>
+              <h3 className="font-elden font-bold text-[#6b5b7c]">Total Quests</h3>
+              <p className="text-sm text-[#8b8b7a]">Your completed quests</p>
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-4xl font-elden font-bold text-[#6b5b7c]">
-              {Math.round((user.statIntelligence + user.statStrength + user.statDiscipline + user.statWealth) * 10)}
+              {totalTasksCompleted}
             </span>
-            <span className="text-[#8b8b7a]">PWR</span>
+            <span className="text-[#8b8b7a]">completed</span>
           </div>
         </div>
       </div>

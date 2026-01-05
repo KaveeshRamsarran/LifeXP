@@ -37,6 +37,8 @@ interface GameState {
   mysteryTasks: MysteryTask[];
   currentMapNode: number;
   completedMapNodes: number[];
+  totalTasksCompleted: number;
+  currentStreak: number;
   fetchData: () => Promise<void>;
   completeTask: (id: string, minutes: number) => Promise<void>;
   completeQuest: (id: string) => Promise<void>;
@@ -44,6 +46,7 @@ interface GameState {
   completeMysteryTask: (id: string) => void;
   completeMapNode: (nodeId: number) => void;
   setCurrentMapNode: (nodeId: number) => void;
+  incrementTasksCompleted: () => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -52,6 +55,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   mysteryTasks: [],
   currentMapNode: 0,
   completedMapNodes: [],
+  totalTasksCompleted: 0,
+  currentStreak: 0,
   fetchData: async () => {
     const [tasksRes, questsRes] = await Promise.all([
       api.get('/tasks'),
@@ -61,10 +66,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
   completeTask: async (id, minutes) => {
     await api.post(`/tasks/${id}/complete`, { actualMinutes: minutes });
+    get().incrementTasksCompleted();
     get().fetchData();
   },
   completeQuest: async (id) => {
     await api.post(`/quests/${id}/complete`);
+    get().incrementTasksCompleted();
     get().fetchData();
   },
   addMysteryTask: (task: MysteryTask) => {
@@ -84,6 +91,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         t.id === id ? { ...t, isCompleted: true } : t
       )
     }));
+    get().incrementTasksCompleted();
     // Update localStorage
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('mysteryTasks');
@@ -114,6 +122,21 @@ export const useGameStore = create<GameState>((set, get) => ({
       localStorage.setItem('currentMapNode', JSON.stringify(nodeId));
     }
   },
+  incrementTasksCompleted: () => {
+    set(state => {
+      const newTotal = state.totalTasksCompleted + 1;
+      // Update streak (simplified - daily streak logic would need date tracking)
+      const newStreak = state.currentStreak + 1;
+      
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('totalTasksCompleted', JSON.stringify(newTotal));
+        localStorage.setItem('currentStreak', JSON.stringify(newStreak));
+        localStorage.setItem('lastTaskDate', new Date().toISOString().split('T')[0]);
+      }
+      
+      return { totalTasksCompleted: newTotal, currentStreak: newStreak };
+    });
+  },
 }));
 
 // Initialize from localStorage
@@ -131,5 +154,26 @@ if (typeof window !== 'undefined') {
   const savedCurrentNode = localStorage.getItem('currentMapNode');
   if (savedCurrentNode) {
     useGameStore.setState({ currentMapNode: JSON.parse(savedCurrentNode) });
+  }
+  
+  const savedTotalTasks = localStorage.getItem('totalTasksCompleted');
+  if (savedTotalTasks) {
+    useGameStore.setState({ totalTasksCompleted: JSON.parse(savedTotalTasks) });
+  }
+  
+  const savedStreak = localStorage.getItem('currentStreak');
+  const lastTaskDate = localStorage.getItem('lastTaskDate');
+  const today = new Date().toISOString().split('T')[0];
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  
+  if (savedStreak && lastTaskDate) {
+    // Keep streak if task was completed today or yesterday
+    if (lastTaskDate === today || lastTaskDate === yesterday) {
+      useGameStore.setState({ currentStreak: JSON.parse(savedStreak) });
+    } else {
+      // Reset streak if more than a day passed
+      localStorage.setItem('currentStreak', '0');
+      useGameStore.setState({ currentStreak: 0 });
+    }
   }
 }

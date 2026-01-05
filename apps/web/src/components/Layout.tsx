@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { user, logout, checkAuth, isLoading, updateUserStats, refreshUser } = useAuthStore();
   const { 
     currentMapNode, completedMapNodes, completeMapNode, setCurrentMapNode,
-    addMysteryTask
+    addMysteryTask, totalTasksCompleted, currentStreak
   } = useGameStore();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -237,8 +237,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             onClose={() => setShowAchievements(false)}
             userLevel={user.level}
             userXp={user.xp}
-            totalTasksCompleted={0}
-            currentStreak={7}
+            totalTasksCompleted={totalTasksCompleted}
+            currentStreak={currentStreak}
           />
           <CharacterModal
             isOpen={showCharacter}
