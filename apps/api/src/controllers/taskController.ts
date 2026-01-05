@@ -29,10 +29,12 @@ export const getTasks = async (req: any, res: Response) => {
 export const createTask = async (req: any, res: Response) => {
   try {
     const data = CreateTaskSchema.parse(req.body);
+    const { tags, ...rest } = data;
     const task = await prisma.task.create({
       data: {
-        ...data,
-        userId: req.user.id,
+        ...rest,
+        tags: tags ? tags.join(',') : undefined,
+        user: { connect: { id: req.user.id } },
       },
     });
     res.status(201).json(task);
@@ -45,10 +47,14 @@ export const updateTask = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     const data = UpdateTaskSchema.parse(req.body);
+    const { tags, ...rest } = data;
     
     const task = await prisma.task.update({
       where: { id, userId: req.user.id },
-      data,
+      data: {
+        ...rest,
+        ...(tags && { tags: tags.join(',') }),
+      },
     });
     res.json(task);
   } catch (error: any) {
