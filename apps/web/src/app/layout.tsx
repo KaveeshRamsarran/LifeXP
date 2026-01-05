@@ -1,17 +1,20 @@
 import type { Metadata } from 'next';
-import { Cinzel, Nunito } from 'next/font/google';
+import { Cormorant_Garamond, Crimson_Text } from 'next/font/google';
 import './globals.css';
 import Layout from '@/components/Layout';
 
-const cinzel = Cinzel({ 
+// Elden Ring inspired fonts - medieval gothic style
+const cormorant = Cormorant_Garamond({ 
   subsets: ['latin'],
-  variable: '--font-cinzel',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-elden',
   display: 'swap',
 });
 
-const nunito = Nunito({ 
+const crimson = Crimson_Text({ 
   subsets: ['latin'],
-  variable: '--font-nunito',
+  weight: ['400', '600', '700'],
+  variable: '--font-body',
   display: 'swap',
 });
 
@@ -30,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${cinzel.variable} ${nunito.variable}`}>
-      <body className={nunito.className}>
+    <html lang="en" className={`${cormorant.variable} ${crimson.variable}`}>
+      <body className={crimson.className}>
         <Layout>{children}</Layout>
       </body>
     </html>

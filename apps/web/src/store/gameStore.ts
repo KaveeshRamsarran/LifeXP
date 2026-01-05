@@ -8,7 +8,9 @@ interface Task {
   difficulty: string;
   isHabit: boolean;
   streakCurrent: number;
-  completedToday?: boolean; // Derived
+  completedToday?: boolean;
+  description?: string;
+  isMystery?: boolean;
 }
 
 interface Quest {
@@ -19,17 +21,42 @@ interface Quest {
   isCompleted: boolean;
 }
 
+interface MysteryTask {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  difficulty: string;
+  xpReward: number;
+  isCompleted: boolean;
+}
+
+type PlayerGender = 'male' | 'female';
+
 interface GameState {
   tasks: Task[];
   quests: Quest[];
+  mysteryTasks: MysteryTask[];
+  currentMapNode: number;
+  completedMapNodes: number[];
+  playerGender: PlayerGender;
   fetchData: () => Promise<void>;
   completeTask: (id: string, minutes: number) => Promise<void>;
   completeQuest: (id: string) => Promise<void>;
+  addMysteryTask: (task: MysteryTask) => void;
+  completeMysteryTask: (id: string) => void;
+  completeMapNode: (nodeId: number) => void;
+  setCurrentMapNode: (nodeId: number) => void;
+  setPlayerGender: (gender: PlayerGender) => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
   tasks: [],
   quests: [],
+  mysteryTasks: [],
+  currentMapNode: 0,
+  completedMapNodes: [],
+  playerGender: 'male',
   fetchData: async () => {
     const [tasksRes, questsRes] = await Promise.all([
       api.get('/tasks'),
@@ -39,17 +66,86 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
   completeTask: async (id, minutes) => {
     await api.post(`/tasks/${id}/complete`, { actualMinutes: minutes });
-    // Refresh data to get updated XP/Stats/Streaks
     get().fetchData();
-    // Also refresh user stats
-    // This is a bit hacky, ideally we update optimistic UI
-    // But for MVP, refetching is safer
-    // We need to trigger a user refresh in authStore too...
-    // Let's just rely on the fact that the user might refresh or we can expose a refreshUser method
-    // For now, we just refresh game data.
   },
   completeQuest: async (id) => {
     await api.post(`/quests/${id}/complete`);
     get().fetchData();
   },
+  addMysteryTask: (task: MysteryTask) => {
+    set(state => ({
+      mysteryTasks: [...state.mysteryTasks, task]
+    }));
+    // Also save to localStorage for persistence
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('mysteryTasks');
+      const existing = saved ? JSON.parse(saved) : [];
+      localStorage.setItem('mysteryTasks', JSON.stringify([...existing, task]));
+    }
+  },
+  completeMysteryTask: (id: string) => {
+    set(state => ({
+      mysteryTasks: state.mysteryTasks.map(t => 
+        t.id === id ? { ...t, isCompleted: true } : t
+      )
+    }));
+    // Update localStorage
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('mysteryTasks');
+      const existing = saved ? JSON.parse(saved) : [];
+      const updated = existing.map((t: MysteryTask) => 
+        t.id === id ? { ...t, isCompleted: true } : t
+      );
+      localStorage.setItem('mysteryTasks', JSON.stringify(updated));
+    }
+  },
+  completeMapNode: (nodeId: number) => {
+    set(state => {
+      const newCompleted = state.completedMapNodes.includes(nodeId) 
+        ? state.completedMapNodes 
+        : [...state.completedMapNodes, nodeId];
+      
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('completedMapNodes', JSON.stringify(newCompleted));
+      }
+      
+      return { completedMapNodes: newCompleted };
+    });
+  },
+  setCurrentMapNode: (nodeId: number) => {
+    set({ currentMapNode: nodeId });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('currentMapNode', JSON.stringify(nodeId));
+    }
+  },
+  setPlayerGender: (gender: PlayerGender) => {
+    set({ playerGender: gender });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('playerGender', gender);
+    }
+  },
 }));
+
+// Initialize from localStorage
+if (typeof window !== 'undefined') {
+  const savedMysteryTasks = localStorage.getItem('mysteryTasks');
+  if (savedMysteryTasks) {
+    useGameStore.setState({ mysteryTasks: JSON.parse(savedMysteryTasks) });
+  }
+  
+  const savedMapNodes = localStorage.getItem('completedMapNodes');
+  if (savedMapNodes) {
+    useGameStore.setState({ completedMapNodes: JSON.parse(savedMapNodes) });
+  }
+  
+  const savedCurrentNode = localStorage.getItem('currentMapNode');
+  if (savedCurrentNode) {
+    useGameStore.setState({ currentMapNode: JSON.parse(savedCurrentNode) });
+  }
+  
+  const savedGender = localStorage.getItem('playerGender');
+  if (savedGender) {
+    useGameStore.setState({ playerGender: savedGender as PlayerGender });
+  }
+}

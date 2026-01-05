@@ -3,48 +3,57 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 15, 12, 25;
-  --background-end-rgb: 25, 18, 40;
+  --foreground-rgb: 215, 210, 195;
+  --background-start-rgb: 12, 10, 8;
+  --background-end-rgb: 22, 18, 14;
   
-  /* Fantasy color palette */
-  --gold: #ffd700;
-  --gold-light: #ffe55c;
-  --gold-dark: #b8860b;
-  --ember: #ff6b35;
-  --ember-light: #ff8c5a;
-  --crimson: #dc143c;
-  --jade: #00d98b;
-  --jade-light: #50ffc0;
-  --mystic: #9d4edd;
-  --mystic-light: #c77dff;
-  --azure: #00b4d8;
-  --azure-light: #48cae4;
+  /* Elden Ring inspired color palette - dark, muted, somber */
+  --gold: #c9a227;
+  --gold-light: #d4b445;
+  --gold-dark: #8b7119;
+  --ember: #8b4513;
+  --ember-light: #a0522d;
+  --crimson: #722f37;
+  --jade: #2d5a27;
+  --jade-light: #3d7a37;
+  --mystic: #4a3b5c;
+  --mystic-light: #6b5b7c;
+  --azure: #2f4f6f;
+  --azure-light: #4a6a8a;
   
-  /* Font families */
-  --font-heading: var(--font-cinzel), 'Cinzel', Georgia, serif;
-  --font-body: var(--font-nunito), 'Nunito', system-ui, sans-serif;
+  /* Elden Ring specific colors */
+  --ash: #3d3d3d;
+  --bone: #d7ceb2;
+  --blood: #5c1a1a;
+  --grace: #f4e4a6;
+  --rune: #b8860b;
+  --fog: #8b8b7a;
+  
+  /* Font families - Elden Ring style */
+  --font-heading: var(--font-elden), 'Cormorant Garamond', 'Garamond', Georgia, serif;
+  --font-body: var(--font-body), 'Crimson Text', Georgia, serif;
 }
 
-/* Fantasy gradient backgrounds */
+/* Elden Ring dark somber background */
 body {
   font-family: var(--font-body);
   color: rgb(var(--foreground-rgb));
   background: 
-    radial-gradient(ellipse at top left, rgba(157, 78, 221, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at top right, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom left, rgba(0, 217, 139, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-    linear-gradient(180deg, rgb(15, 12, 25) 0%, rgb(25, 18, 40) 100%);
+    radial-gradient(ellipse at top, rgba(201, 162, 39, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(45, 90, 39, 0.05) 0%, transparent 40%),
+    radial-gradient(ellipse at bottom right, rgba(139, 69, 19, 0.05) 0%, transparent 40%),
+    linear-gradient(180deg, rgb(12, 10, 8) 0%, rgb(22, 18, 14) 50%, rgb(15, 12, 10) 100%);
   min-height: 100vh;
 }
 
-/* Heading font class */
-.font-cinzel {
+/* Elden Ring heading font class */
+.font-cinzel, .font-elden {
   font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
-/* Animated background particles */
+/* Elden Ring style background - ash and embers */
 .fantasy-bg {
   position: fixed;
   top: 0;
@@ -64,41 +73,45 @@ body {
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(2px 2px at 20px 30px, rgba(255, 215, 0, 0.5), transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255, 107, 53, 0.4), transparent),
-    radial-gradient(2px 2px at 50px 160px, rgba(0, 217, 139, 0.4), transparent),
-    radial-gradient(2px 2px at 90px 40px, rgba(157, 78, 221, 0.5), transparent),
-    radial-gradient(2px 2px at 130px 80px, rgba(255, 215, 0, 0.3), transparent),
-    radial-gradient(1px 1px at 160px 120px, rgba(255, 255, 255, 0.5), transparent);
+    radial-gradient(1px 1px at 20px 30px, rgba(201, 162, 39, 0.3), transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(139, 69, 19, 0.2), transparent),
+    radial-gradient(1px 1px at 50px 160px, rgba(215, 206, 178, 0.15), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(201, 162, 39, 0.2), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(139, 133, 122, 0.2), transparent),
+    radial-gradient(1px 1px at 160px 120px, rgba(244, 228, 166, 0.1), transparent);
   background-repeat: repeat;
   background-size: 200px 200px;
-  animation: twinkle 8s ease-in-out infinite;
+  animation: twinkle 12s ease-in-out infinite;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
 }
 
-/* Glow effects */
+/* Elden Ring style glow effects - muted, somber */
 .glow-gold {
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 0 15px rgba(201, 162, 39, 0.3), 0 0 30px rgba(201, 162, 39, 0.15);
 }
 
 .glow-ember {
-  box-shadow: 0 0 20px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2);
+  box-shadow: 0 0 15px rgba(139, 69, 19, 0.3), 0 0 30px rgba(139, 69, 19, 0.15);
 }
 
 .glow-jade {
-  box-shadow: 0 0 20px rgba(0, 217, 139, 0.4), 0 0 40px rgba(0, 217, 139, 0.2);
+  box-shadow: 0 0 15px rgba(45, 90, 39, 0.3), 0 0 30px rgba(45, 90, 39, 0.15);
 }
 
 .glow-mystic {
-  box-shadow: 0 0 20px rgba(157, 78, 221, 0.4), 0 0 40px rgba(157, 78, 221, 0.2);
+  box-shadow: 0 0 15px rgba(74, 59, 92, 0.3), 0 0 30px rgba(74, 59, 92, 0.15);
 }
 
 .glow-azure {
-  box-shadow: 0 0 20px rgba(0, 180, 216, 0.4), 0 0 40px rgba(0, 180, 216, 0.2);
+  box-shadow: 0 0 15px rgba(47, 79, 111, 0.3), 0 0 30px rgba(47, 79, 111, 0.15);
+}
+
+.glow-grace {
+  box-shadow: 0 0 20px rgba(244, 228, 166, 0.4), 0 0 40px rgba(244, 228, 166, 0.2);
 }
 
 /* Text glow */
@@ -229,19 +242,23 @@ body {
   animation: spin-slow 20s linear infinite;
 }
 
-/* XP Bar styles */
+/* XP Bar styles - Elden Ring rune bar */
 .xp-bar {
   position: relative;
   overflow: hidden;
-  border-radius: 9999px;
+  border-radius: 0.125rem;
+  background: rgba(30, 25, 20, 0.8);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  height: 8px;
 }
 
 .xp-bar-fill {
+  height: 100%;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   background: linear-gradient(90deg, 
-    var(--gold-dark) 0%, 
-    var(--gold) 50%, 
-    var(--gold-light) 100%
+    #8b7119 0%, 
+    #c9a227 50%, 
+    #d4b445 100%
   );
   position: relative;
 }
@@ -253,23 +270,24 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(244, 228, 166, 0.3) 50%, transparent 100%);
   background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+  animation: shimmer 3s infinite;
 }
 
-/* Card hover effects */
+/* Elden Ring style card - weathered parchment look */
 .fantasy-card {
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  background: linear-gradient(135deg, rgba(30, 20, 50, 0.9) 0%, rgba(40, 25, 60, 0.9) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.15);
+  background: linear-gradient(135deg, rgba(30, 25, 20, 0.95) 0%, rgba(40, 32, 25, 0.95) 100%);
   backdrop-filter: blur(10px);
+  border-radius: 0.25rem;
 }
 
 .fantasy-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 215, 0, 0.4);
-  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.15), 0 0 20px rgba(255, 215, 0, 0.1);
+  transform: translateY(-2px);
+  border-color: rgba(201, 162, 39, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(201, 162, 39, 0.1);
 }
 
 /* Button styles */
@@ -298,59 +316,67 @@ body {
   transform: scale(0.95);
 }
 
-/* Stat card styles */
+/* Elden Ring style stat cards */
 .stat-card {
   position: relative;
   padding: 1rem;
-  border-radius: 1rem;
-  background: linear-gradient(135deg, rgba(30, 20, 50, 0.8) 0%, rgba(40, 25, 60, 0.8) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  background: linear-gradient(135deg, rgba(30, 25, 20, 0.9) 0%, rgba(40, 32, 25, 0.9) 100%);
+  border: 1px solid rgba(139, 133, 122, 0.2);
   transition: all 0.3s ease;
 }
 
 .stat-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
-.stat-card.intelligence {
-  border-color: rgba(0, 180, 216, 0.4);
+.stat-card.intelligence,
+.stat-card-intelligence {
+  border-color: rgba(47, 79, 111, 0.4);
 }
 
-.stat-card.intelligence:hover {
-  box-shadow: 0 0 30px rgba(0, 180, 216, 0.3);
+.stat-card.intelligence:hover,
+.stat-card-intelligence:hover {
+  box-shadow: 0 0 20px rgba(47, 79, 111, 0.3);
 }
 
-.stat-card.strength {
-  border-color: rgba(220, 20, 60, 0.4);
+.stat-card.strength,
+.stat-card-strength {
+  border-color: rgba(114, 47, 55, 0.4);
 }
 
-.stat-card.strength:hover {
-  box-shadow: 0 0 30px rgba(220, 20, 60, 0.3);
+.stat-card.strength:hover,
+.stat-card-strength:hover {
+  box-shadow: 0 0 20px rgba(114, 47, 55, 0.3);
 }
 
-.stat-card.discipline {
-  border-color: rgba(157, 78, 221, 0.4);
+.stat-card.discipline,
+.stat-card-discipline {
+  border-color: rgba(74, 59, 92, 0.4);
 }
 
-.stat-card.discipline:hover {
-  box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
+.stat-card.discipline:hover,
+.stat-card-discipline:hover {
+  box-shadow: 0 0 20px rgba(74, 59, 92, 0.3);
 }
 
-.stat-card.wealth {
-  border-color: rgba(255, 215, 0, 0.4);
+.stat-card.wealth,
+.stat-card-wealth {
+  border-color: rgba(201, 162, 39, 0.4);
 }
 
-.stat-card.wealth:hover {
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+.stat-card.wealth:hover,
+.stat-card-wealth:hover {
+  box-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
 }
 
-/* Quest/Task card */
+/* Elden Ring style quest/task card */
 .quest-card {
   position: relative;
   overflow: hidden;
-  border-radius: 1rem;
-  background: linear-gradient(135deg, rgba(30, 20, 50, 0.9) 0%, rgba(40, 25, 60, 0.9) 100%);
-  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 0.25rem;
+  background: linear-gradient(135deg, rgba(30, 25, 20, 0.95) 0%, rgba(40, 32, 25, 0.95) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.1);
   transition: all 0.3s ease;
 }
 
@@ -360,15 +386,15 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--ember), var(--gold));
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--rune), var(--gold));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .quest-card:hover {
-  transform: translateX(8px);
-  border-color: rgba(255, 215, 0, 0.4);
+  transform: translateX(4px);
+  border-color: rgba(201, 162, 39, 0.25);
 }
 
 .quest-card:hover::before {
@@ -377,7 +403,7 @@ body {
 
 .quest-card.completed {
   opacity: 0.6;
-  border-color: rgba(0, 217, 139, 0.4);
+  border-color: rgba(45, 90, 39, 0.3);
 }
 
 .quest-card.completed::before {
@@ -385,18 +411,36 @@ body {
   opacity: 1;
 }
 
-/* Level badge */
+/* Elden Ring style task card */
+.task-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(135deg, rgba(30, 25, 20, 0.95) 0%, rgba(40, 32, 25, 0.95) 100%);
+  border: 1px solid rgba(139, 133, 122, 0.15);
+  transition: all 0.3s ease;
+}
+
+.task-card:hover {
+  border-color: rgba(201, 162, 39, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Elden Ring style level badge - Site of Grace inspired */
 .level-badge {
   position: relative;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1.5rem;
-  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
-  border-radius: 9999px;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(40, 32, 25, 0.95) 0%, rgba(30, 25, 20, 0.95) 100%);
+  border: 2px solid var(--gold);
+  border-radius: 0.25rem;
   font-weight: bold;
-  color: #1a0f2e;
-  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  color: var(--grace);
+  box-shadow: 0 0 20px rgba(244, 228, 166, 0.2), inset 0 0 20px rgba(201, 162, 39, 0.1);
 }
 
 .level-badge::before {
@@ -464,53 +508,73 @@ body {
   animation: level-up-burst 1s ease-out;
 }
 
-/* Difficulty badges */
+/* Elden Ring style difficulty badges */
+.difficulty-badge {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  border-radius: 0.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .difficulty-easy {
-  color: var(--jade);
-  background: rgba(0, 217, 139, 0.15);
-  border: 1px solid rgba(0, 217, 139, 0.3);
+  color: #3d7a37;
+  background: rgba(45, 90, 39, 0.2);
+  border: 1px solid rgba(45, 90, 39, 0.4);
 }
 
 .difficulty-medium {
-  color: var(--gold);
-  background: rgba(255, 215, 0, 0.15);
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #c9a227;
+  background: rgba(201, 162, 39, 0.15);
+  border: 1px solid rgba(201, 162, 39, 0.3);
 }
 
 .difficulty-hard {
-  color: var(--crimson);
-  background: rgba(220, 20, 60, 0.15);
-  border: 1px solid rgba(220, 20, 60, 0.3);
+  color: #8b5a5a;
+  background: rgba(114, 47, 55, 0.2);
+  border: 1px solid rgba(114, 47, 55, 0.4);
 }
 
-/* Category badges */
-.category-intelligence { color: var(--azure); }
-.category-strength { color: var(--crimson); }
-.category-discipline { color: var(--mystic); }
-.category-wealth { color: var(--gold); }
+/* Elden Ring style category badges */
+.category-badge {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  border-radius: 0.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(30, 25, 20, 0.5);
+  border: 1px solid rgba(139, 133, 122, 0.3);
+}
 
-/* Scrollbar */
+.category-intelligence { color: #4a6a8a; border-color: rgba(47, 79, 111, 0.4); }
+.category-strength { color: #8b5a5a; border-color: rgba(114, 47, 55, 0.4); }
+.category-discipline { color: #6b5b7c; border-color: rgba(74, 59, 92, 0.4); }
+.category-wealth { color: #a08a4a; border-color: rgba(201, 162, 39, 0.4); }
+
+/* Elden Ring style Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(30, 20, 50, 0.5);
+  background: rgba(22, 18, 14, 0.8);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--gold-dark) 0%, var(--gold) 100%);
-  border-radius: 4px;
+  background: linear-gradient(180deg, #8b7119 0%, #c9a227 100%);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
+  background: #c9a227;
 }
 
 /* Selection */
 ::selection {
-  background: rgba(255, 215, 0, 0.3);
-  color: white;
+  background: rgba(201, 162, 39, 0.3);
+  color: #f4e4a6;
 }
 
 /* Responsive improvements */
@@ -528,7 +592,7 @@ body {
   }
 }
 
-/* Hero buttons for landing page */
+/* Elden Ring style hero buttons for landing page */
 .hero-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -536,24 +600,26 @@ body {
   padding: 1rem 2rem;
   font-size: 1.125rem;
   font-weight: bold;
-  color: #1a0f2e;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+  color: #1e1914;
+  background: linear-gradient(135deg, #c9a227 0%, #d4b445 50%, #c9a227 100%);
   background-size: 200% 100%;
-  border: none;
-  border-radius: 9999px;
+  border: 2px solid #8b7119;
+  border-radius: 0.25rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.3);
 }
 
 .hero-btn-primary:hover {
   background-position: 100% 0;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.4);
 }
 
 .hero-btn-primary:active {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(0);
 }
 
 .hero-btn-secondary {
@@ -563,10 +629,12 @@ body {
   padding: 1rem 2rem;
   font-size: 1.125rem;
   font-weight: bold;
-  color: var(--gold);
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+  color: #c9a227;
   background: transparent;
-  border: 2px solid rgba(255, 215, 0, 0.5);
-  border-radius: 9999px;
+  border: 2px solid rgba(201, 162, 39, 0.4);
+  border-radius: 0.25rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
