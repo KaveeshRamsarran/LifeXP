@@ -94,7 +94,7 @@ export const completeTask = async (req: any, res: Response) => {
     }
 
     // Calculate XP
-    const xpEarned = calculateTaskXp(task.difficulty, actualMinutes, streakDays, false);
+    const xpEarned = calculateTaskXp(task.difficulty as 'EASY' | 'MEDIUM' | 'HARD', actualMinutes, streakDays, false);
     
     // Create Completion
     await prisma.completion.create({
@@ -108,7 +108,7 @@ export const completeTask = async (req: any, res: Response) => {
     });
 
     // Award XP and Stats
-    const result = await awardXpAndStats(req.user.id, xpEarned, task.category, task.difficulty);
+    const result = await awardXpAndStats(req.user.id, xpEarned, task.category as 'INTELLIGENCE' | 'STRENGTH' | 'DISCIPLINE' | 'WEALTH', task.difficulty as 'EASY' | 'MEDIUM' | 'HARD');
 
     res.json({ ...result, xpEarned, streakDays });
   } catch (error: any) {

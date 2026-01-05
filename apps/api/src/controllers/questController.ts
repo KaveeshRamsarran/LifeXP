@@ -18,7 +18,7 @@ export const completeQuest = async (req: any, res: Response) => {
     if (quest.isCompleted) return res.status(400).json({ error: 'Already completed' });
 
     // Calculate XP (Quests usually don't have duration, assume 15 mins or 0 for bonus)
-    const xpEarned = calculateTaskXp(quest.difficulty, 15, 0, true);
+    const xpEarned = calculateTaskXp(quest.difficulty as 'EASY' | 'MEDIUM' | 'HARD', 15, 0, true);
     
     await prisma.quest.update({
       where: { id },
@@ -35,7 +35,7 @@ export const completeQuest = async (req: any, res: Response) => {
       },
     });
 
-    const result = await awardXpAndStats(req.user.id, xpEarned, quest.category, quest.difficulty);
+    const result = await awardXpAndStats(req.user.id, xpEarned, quest.category as 'INTELLIGENCE' | 'STRENGTH' | 'DISCIPLINE' | 'WEALTH', quest.difficulty as 'EASY' | 'MEDIUM' | 'HARD');
 
     res.json({ ...result, xpEarned });
   } catch (error: any) {

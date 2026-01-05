@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["src/__tests__/**/*", "**/*.test.ts", "**/*.spec.ts"]
 }

@@ -1,10 +1,7 @@
 import dotenv from 'dotenv';
-import path from 'path';
-import app from './app';
-
-// Try to load from root .env first, then local
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 dotenv.config();
+
+import app from './app';
 
 const PORT = process.env.PORT || 3001;
 
