@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="xpGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#22d3ee"/>
+      <stop offset="100%" style="stop-color:#a855f7"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect x="0" y="0" width="32" height="32" rx="6" fill="url(#bgGrad)"/>
+  <!-- Inner dark -->
+  <rect x="3" y="3" width="26" height="26" rx="4" fill="#0f172a"/>
+  <!-- Star -->
+  <polygon points="16,5 17.5,10 23,10 18.5,13 20,18 16,15 12,18 13.5,13 9,10 14.5,10" fill="#fbbf24"/>
+  <!-- XP Bar -->
+  <rect x="6" y="21" width="20" height="4" rx="2" fill="#1e293b"/>
+  <rect x="6" y="21" width="14" height="4" rx="2" fill="url(#xpGrad)"/>
+</svg>

@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum Category {
+  INTELLIGENCE
+  STRENGTH
+  DISCIPLINE
+  WEALTH
+}
+
+enum Frequency {
+  DAILY
+  WEEKLY
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  timezone      String    @default("UTC")
+  role          Role      @default(USER)
+  
+  // Game Stats
+  xp            Int       @default(0)
+  level         Int       @default(1)
+  title         String    @default("Wandering Potato")
+  
+  statIntelligence Float @default(0)
+  statStrength     Float @default(0)
+  statDiscipline   Float @default(0)
+  statWealth       Float @default(0)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tasks         Task[]
+  completions   Completion[]
+  quests        Quest[]
+  recaps        WeeklyRecap[]
+}
+
+model Task {
+  id               String     @id @default(uuid())
+  userId           String
+  user             User       @relation(fields: [userId], references: [id])
+  
+  title            String
+  description      String?
+  category         Category
+  difficulty       Difficulty
+  estimatedMinutes Int        @default(15)
+  
+  // Habit fields
+  isHabit          Boolean    @default(false)
+  frequency        Frequency? // If null and isHabit=true, assume DAILY
+  streakCurrent    Int        @default(0)
+  streakLongest    Int        @default(0)
+  lastCompletedAt  DateTime?
+  
+  tags             String[]
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  
+  completions      Completion[]
+}
+
+model Completion {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  
+  taskId        String?
+  task          Task?     @relation(fields: [taskId], references: [id])
+  
+  questId       String?
+  quest         Quest?    @relation(fields: [questId], references: [id])
+
+  actualMinutes Int
+  xpEarned      Int
+  notes         String?
+  completedAt   DateTime  @default(now())
+}
+
+model Quest {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  
+  date          DateTime  @db.Date // Store as date only (YYYY-MM-DD)
+  title         String
+  category      Category
+  difficulty    Difficulty
+  
+  isCompleted   Boolean   @default(false)
+  
+  completions   Completion[]
+
+  @@unique([userId, date, title]) // Prevent duplicate quests per day
+}
+
+model WeeklyRecap {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  
+  weekStartDate DateTime  @db.Date
+  totalXp       Int
+  totalTasks    Int
+  
+  createdAt     DateTime  @default(now())
+  
+  @@unique([userId, weekStartDate])
+}

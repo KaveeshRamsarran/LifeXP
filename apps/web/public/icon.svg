@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="xpGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#22d3ee"/>
+      <stop offset="100%" style="stop-color:#a855f7"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#bgGrad)"/>
+  <!-- Inner dark circle -->
+  <circle cx="50" cy="50" r="40" fill="#0f172a"/>
+  <!-- XP Bar background -->
+  <rect x="20" y="58" width="60" height="8" rx="4" fill="#1e293b"/>
+  <!-- XP Bar fill -->
+  <rect x="20" y="58" width="45" height="8" rx="4" fill="url(#xpGrad)"/>
+  <!-- Star/Level indicator -->
+  <polygon points="50,18 53,28 64,28 55,35 58,45 50,39 42,45 45,35 36,28 47,28" fill="#fbbf24"/>
+  <!-- Level number -->
+  <text x="50" y="54" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc" text-anchor="middle">LXP</text>
+</svg>
