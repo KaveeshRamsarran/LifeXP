@@ -1,9 +1,19 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Cinzel, Nunito } from 'next/font/google';
 import './globals.css';
 import Layout from '@/components/Layout';
 
-const inter = Inter({ subsets: ['latin'] });
+const cinzel = Cinzel({ 
+  subsets: ['latin'],
+  variable: '--font-cinzel',
+  display: 'swap',
+});
+
+const nunito = Nunito({ 
+  subsets: ['latin'],
+  variable: '--font-nunito',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Life XP',
@@ -20,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={`${cinzel.variable} ${nunito.variable}`}>
+      <body className={nunito.className}>
         <Layout>{children}</Layout>
       </body>
     </html>

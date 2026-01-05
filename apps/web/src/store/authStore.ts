@@ -22,6 +22,8 @@ interface AuthState {
   register: (data: RegisterInput) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  updateUserStats: (updates: Partial<User>) => void;
+  refreshUser: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -52,6 +54,21 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ user: null });
     } finally {
       set({ isLoading: false });
+    }
+  },
+  // Optimistic update for XP/stats - instant UI feedback
+  updateUserStats: (updates) => {
+    set((state) => ({
+      user: state.user ? { ...state.user, ...updates } : null,
+    }));
+  },
+  // Refresh user data from server (to sync after optimistic updates)
+  refreshUser: async () => {
+    try {
+      const res = await api.get('/me');
+      set({ user: res.data.user });
+    } catch (error) {
+      // Keep current state on error
     }
   },
 }));
