@@ -69,24 +69,67 @@ npm run dev
 
 ##  Deployment
 
-### Frontend (Vercel)
-1.  Push to GitHub.
-2.  Import project to Vercel.
-3.  Set Root Directory to pps/web.
-4.  Add Environment Variable: NEXT_PUBLIC_API_URL (your backend URL).
+### Step 1: Push to GitHub
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/YOUR_USERNAME/lifexp.git
+git push -u origin main
+```
 
-### Backend (Render/Railway/Fly.io)
-1.  **Render**:
-    -   Create a Web Service.
-    -   Root Directory: pps/api.
-    -   Build Command: 
-pm install && npm run build.
-    -   Start Command: 
-pm start.
-    -   Add Env Vars: DATABASE_URL, JWT_SECRET, FRONTEND_URL.
-2.  **Database**:
-    -   Provision a PostgreSQL database on the same provider.
-    -   Get the connection string and set as DATABASE_URL.
+### Step 2: Deploy Backend (Railway - Recommended)
+
+1. Go to [railway.app](https://railway.app) and sign in with GitHub
+2. Click **"New Project"** → **"Deploy from GitHub repo"**
+3. Select your LifeXP repository
+4. Click **"Add Service"** → **"Database"** → **"PostgreSQL"**
+5. Click on your main service, go to **Settings**:
+   - Set **Root Directory**: `apps/api`
+   - Set **Build Command**: `npm install && npx prisma generate && npm run build`
+   - Set **Start Command**: `npm run start`
+6. Go to **Variables** tab and add:
+   - `DATABASE_URL`: Click on PostgreSQL service → Variables → Copy `DATABASE_URL`
+   - `JWT_SECRET`: Generate a random string (e.g., `openssl rand -base64 32`)
+   - `FRONTEND_URL`: `https://your-app.vercel.app` (add after Vercel deploy)
+   - `NODE_ENV`: `production`
+7. Go to **Settings** → **Networking** → **Generate Domain**
+8. Copy your Railway URL (e.g., `https://lifexp-api.up.railway.app`)
+
+**Run Database Migration:**
+- In Railway, go to your service → **Settings** → **Deploy** → Add deploy command:
+  ```bash
+  npx prisma migrate deploy && npm run seed
+  ```
+
+### Step 3: Deploy Frontend (Vercel)
+
+1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
+2. Click **"Add New"** → **"Project"**
+3. Import your LifeXP repository
+4. Configure the project:
+   - **Root Directory**: `apps/web`
+   - **Framework Preset**: Next.js (auto-detected)
+5. Add **Environment Variable**:
+   - `NEXT_PUBLIC_API_URL`: `https://your-railway-url.up.railway.app/api/v1`
+6. Click **Deploy**
+
+### Step 4: Update CORS
+
+After both are deployed, update Railway's `FRONTEND_URL` variable with your Vercel URL.
+
+### Alternative: Render
+
+**Backend:**
+1. Create a Web Service on [render.com](https://render.com)
+2. Set Root Directory: `apps/api`
+3. Build Command: `npm install && npx prisma generate && npm run build`
+4. Start Command: `npm start`
+5. Add Env Vars: `DATABASE_URL`, `JWT_SECRET`, `FRONTEND_URL`, `NODE_ENV=production`
+
+**Database:**
+- Create a PostgreSQL database on Render
+- Copy the connection string to `DATABASE_URL`
 
 ##  Architecture
 

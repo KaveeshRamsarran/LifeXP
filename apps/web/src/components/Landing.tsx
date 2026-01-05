@@ -109,7 +109,7 @@ export default function Landing() {
           <p className="text-sm text-muted">
             Build <span className="text-azure">Intelligence</span>, <span className="text-crimson">Strength</span>, 
             <span className="text-mystic"> Discipline</span>, and <span className="text-jade">Wealth</span> 
-            through real quests.
+             through real quests.
           </p>
           <div className="flex gap-2 mt-3">
             <BrainIcon className="w-5 h-5 text-azure" />

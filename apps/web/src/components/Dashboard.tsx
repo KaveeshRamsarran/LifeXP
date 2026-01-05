@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import api from '@/lib/api';
-import dynamic from 'next/dynamic';
 import { 
   FlameIcon, 
   LightningIcon, 
@@ -35,9 +34,6 @@ interface MysteryTask {
   xpReward: number;
   isCompleted: boolean;
 }
-
-// Dynamically import QuestMap to avoid SSR issues
-const QuestMap = dynamic(() => import('./QuestMap'), { ssr: false });
 
 // XP Popup component for floating +XP animations
 function XpPopup({ xp, id, onComplete }: { xp: number; id: string; onComplete: (id: string) => void }) {
@@ -100,8 +96,7 @@ const difficultyXp: Record<string, number> = {
 export default function Dashboard() {
   const { user, updateUserStats } = useAuthStore();
   const { 
-    tasks, quests, mysteryTasks, fetchData, completeTask, completeQuest, addMysteryTask, completeMysteryTask,
-    currentMapNode, completedMapNodes, playerGender, completeMapNode, setCurrentMapNode, setPlayerGender
+    tasks, quests, mysteryTasks, fetchData, completeTask, completeQuest, completeMysteryTask
   } = useGameStore();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [xpPopups, setXpPopups] = useState<Array<{ id: string; xp: number; x: number; y: number }>>([]);
@@ -156,29 +151,6 @@ export default function Dashboard() {
     await completeQuest(questId);
   };
 
-  // Handle mystery task from QuestMap
-  const handleMysteryTask = useCallback((task: MysteryTask) => {
-    addMysteryTask(task);
-  }, [addMysteryTask]);
-
-  // Handle completing a map node/quest
-  const handleCompleteMapNode = useCallback((nodeId: number, xpReward: number) => {
-    completeMapNode(nodeId);
-    if (user) {
-      updateUserStats({ xp: user.xp + xpReward });
-    }
-  }, [completeMapNode, user, updateUserStats]);
-
-  // Handle player moving on map
-  const handlePlayerMove = useCallback((nodeId: number) => {
-    setCurrentMapNode(nodeId);
-  }, [setCurrentMapNode]);
-
-  // Handle gender change
-  const handleGenderChange = useCallback((gender: 'male' | 'female') => {
-    setPlayerGender(gender);
-  }, [setPlayerGender]);
-
   // Handle completing a mystery task
   const handleCompleteMysteryTask = async (taskId: string, xp: number, event: React.MouseEvent) => {
     showXpGain(xp, event);
@@ -188,6 +160,16 @@ export default function Dashboard() {
     }
     
     completeMysteryTask(taskId);
+  };
+
+  // Handle manual level up when XP bar is full
+  const handleManualLevelUp = () => {
+    if (user && currentLevelXp >= xpForNextLevel) {
+      setCelebrationLevel(user.level + 1);
+      updateUserStats({ level: user.level + 1 });
+      setShowLevelUp(true);
+      previousLevelRef.current = user.level + 1;
+    }
   };
 
   if (!user) return null;
@@ -200,6 +182,7 @@ export default function Dashboard() {
   const xpForNextLevel = 100 + (user.level - 1) * 35;
   const currentLevelXp = user.xp - xpAtStartOfLevel;
   const progress = Math.min(100, Math.max(0, (currentLevelXp / xpForNextLevel) * 100));
+  const canLevelUp = currentLevelXp >= xpForNextLevel;
 
   return (
     <div className="space-y-8 relative">
@@ -242,10 +225,21 @@ export default function Dashboard() {
             </div>
             <div className="xp-bar">
               <div 
-                className="xp-bar-fill"
+                className={`xp-bar-fill ${canLevelUp ? 'animate-pulse' : ''}`}
                 style={{ width: `${progress}%` }}
               />
             </div>
+            {/* Level Up Button */}
+            {canLevelUp && (
+              <button
+                onClick={handleManualLevelUp}
+                className="mt-3 w-full py-2 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-white font-elden font-bold rounded border-2 border-amber-500 shadow-lg shadow-amber-500/30 transition-all animate-pulse hover:animate-none flex items-center justify-center gap-2"
+              >
+                <LightningIcon className="w-5 h-5" />
+                LEVEL UP TO {user.level + 1}
+                <LightningIcon className="w-5 h-5" />
+              </button>
+            )}
           </div>
 
           {/* Stats Grid - Elden Ring attributes */}
@@ -461,19 +455,6 @@ export default function Dashboard() {
             </div>
           )}
         </div>
-      </div>
-
-      {/* Quest Journey Map Section */}
-      <div className="mt-8 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-        <QuestMap 
-          currentNodeId={currentMapNode} 
-          completedNodeIds={completedMapNodes}
-          playerGender={playerGender}
-          onMysteryTask={handleMysteryTask}
-          onCompleteNode={handleCompleteMapNode}
-          onPlayerMove={handlePlayerMove}
-          onGenderChange={handleGenderChange}
-        />
       </div>
 
       {/* Achievement Section - Mixed RPG style */}

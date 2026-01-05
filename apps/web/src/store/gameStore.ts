@@ -31,15 +31,12 @@ interface MysteryTask {
   isCompleted: boolean;
 }
 
-type PlayerGender = 'male' | 'female';
-
 interface GameState {
   tasks: Task[];
   quests: Quest[];
   mysteryTasks: MysteryTask[];
   currentMapNode: number;
   completedMapNodes: number[];
-  playerGender: PlayerGender;
   fetchData: () => Promise<void>;
   completeTask: (id: string, minutes: number) => Promise<void>;
   completeQuest: (id: string) => Promise<void>;
@@ -47,7 +44,6 @@ interface GameState {
   completeMysteryTask: (id: string) => void;
   completeMapNode: (nodeId: number) => void;
   setCurrentMapNode: (nodeId: number) => void;
-  setPlayerGender: (gender: PlayerGender) => void;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -56,7 +52,6 @@ export const useGameStore = create<GameState>((set, get) => ({
   mysteryTasks: [],
   currentMapNode: 0,
   completedMapNodes: [],
-  playerGender: 'male',
   fetchData: async () => {
     const [tasksRes, questsRes] = await Promise.all([
       api.get('/tasks'),
@@ -119,12 +114,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       localStorage.setItem('currentMapNode', JSON.stringify(nodeId));
     }
   },
-  setPlayerGender: (gender: PlayerGender) => {
-    set({ playerGender: gender });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('playerGender', gender);
-    }
-  },
 }));
 
 // Initialize from localStorage
@@ -142,10 +131,5 @@ if (typeof window !== 'undefined') {
   const savedCurrentNode = localStorage.getItem('currentMapNode');
   if (savedCurrentNode) {
     useGameStore.setState({ currentMapNode: JSON.parse(savedCurrentNode) });
-  }
-  
-  const savedGender = localStorage.getItem('playerGender');
-  if (savedGender) {
-    useGameStore.setState({ playerGender: savedGender as PlayerGender });
   }
 }

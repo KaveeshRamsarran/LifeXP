@@ -43,6 +43,11 @@ app.get('/api/v1', (req, res) => {
   });
 });
 
+// Health check endpoint for Railway/monitoring
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
+
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/tasks', taskRoutes);
 app.use('/api/v1/quests', questRoutes);
