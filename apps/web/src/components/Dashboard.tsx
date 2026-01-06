@@ -186,7 +186,19 @@ export default function Dashboard() {
   const canLevelUp = currentLevelXp >= xpForNextLevel;
 
   return (
-    <div className="space-y-8 relative">
+    <div className="space-y-6 md:space-y-8 relative">
+      {/* Subtle background image */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-[0.04]"
+        style={{
+          backgroundImage: 'url(/pixel-art-fantasy-map-v0-z76b6jwd36se1.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          filter: 'blur(1px)',
+        }}
+      />
+      
       {/* XP Popups */}
       {xpPopups.map(popup => (
         <div 
@@ -207,22 +219,22 @@ export default function Dashboard() {
       )}
 
       {/* Hero Stats Card - Elden Ring style */}
-      <div className="fantasy-card p-6 animate-scale-in">
-        <div className="flex flex-col md:flex-row items-center gap-6">
+      <div className="fantasy-card p-4 sm:p-6 animate-scale-in relative z-10">
+        <div className="flex flex-col items-center gap-4 md:gap-6 md:flex-row">
           {/* Level Badge - Site of Grace style */}
-          <div className="level-badge">
-            <CrownIcon className="w-6 h-6 text-[#f4e4a6] mb-1" />
-            <span className="text-2xl font-bold text-[#f4e4a6]">{user.level}</span>
+          <div className="level-badge shrink-0">
+            <CrownIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#f4e4a6] mb-1" />
+            <span className="text-xl sm:text-2xl font-bold text-[#f4e4a6]">{user.level}</span>
           </div>
 
           {/* XP Bar Section */}
           <div className="flex-1 w-full">
-            <div className="flex justify-between mb-2 items-center">
+            <div className="flex flex-col sm:flex-row sm:justify-between mb-2 gap-1 sm:gap-0 items-start sm:items-center">
               <div className="flex items-center gap-2">
-                <StarIcon className="w-5 h-5 text-[#f4e4a6]" />
-                <span className="font-elden font-bold text-lg text-[#d7ceb2]">Level {user.level} Adventurer</span>
+                <StarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-[#f4e4a6]" />
+                <span className="font-elden font-bold text-base sm:text-lg text-[#d7ceb2]">Level {user.level} Adventurer</span>
               </div>
-              <span className="text-[#c9a227] font-medium">{Math.floor(currentLevelXp)} / {xpForNextLevel} XP</span>
+              <span className="text-[#c9a227] font-medium text-sm sm:text-base">{Math.floor(currentLevelXp)} / {xpForNextLevel} XP</span>
             </div>
             <div className="xp-bar">
               <div 
@@ -244,42 +256,42 @@ export default function Dashboard() {
           </div>
 
           {/* Stats Grid - Elden Ring attributes */}
-          <div className="grid grid-cols-4 gap-3 w-full md:w-auto">
+          <div className="grid grid-cols-4 gap-2 sm:gap-3 w-full md:w-auto">
             <div className="stat-card stat-card-intelligence">
-              <BrainIcon className="w-6 h-6 mb-1 text-[#4a6a8a]" />
-              <div className="text-xs text-[#8b8b7a]">INT</div>
-              <div className="font-bold text-lg text-[#d7ceb2]">{user.statIntelligence.toFixed(1)}</div>
+              <BrainIcon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-[#4a6a8a]" />
+              <div className="text-[10px] sm:text-xs text-[#8b8b7a]">INT</div>
+              <div className="font-bold text-sm sm:text-lg text-[#d7ceb2]">{user.statIntelligence.toFixed(1)}</div>
             </div>
             <div className="stat-card stat-card-strength">
-              <MuscleIcon className="w-6 h-6 mb-1 text-[#8b5a5a]" />
-              <div className="text-xs text-[#8b8b7a]">STR</div>
-              <div className="font-bold text-lg text-[#d7ceb2]">{user.statStrength.toFixed(1)}</div>
+              <MuscleIcon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-[#8b5a5a]" />
+              <div className="text-[10px] sm:text-xs text-[#8b8b7a]">STR</div>
+              <div className="font-bold text-sm sm:text-lg text-[#d7ceb2]">{user.statStrength.toFixed(1)}</div>
             </div>
             <div className="stat-card stat-card-discipline">
-              <TargetIcon className="w-6 h-6 mb-1 text-[#6b5b7c]" />
-              <div className="text-xs text-[#8b8b7a]">END</div>
-              <div className="font-bold text-lg text-[#d7ceb2]">{user.statDiscipline.toFixed(1)}</div>
+              <TargetIcon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-[#6b5b7c]" />
+              <div className="text-[10px] sm:text-xs text-[#8b8b7a]">END</div>
+              <div className="font-bold text-sm sm:text-lg text-[#d7ceb2]">{user.statDiscipline.toFixed(1)}</div>
             </div>
             <div className="stat-card stat-card-wealth">
-              <CoinIcon className="w-6 h-6 mb-1 text-[#a08a4a]" />
-              <div className="text-xs text-[#8b8b7a]">ARC</div>
-              <div className="font-bold text-lg text-[#d7ceb2]">{user.statWealth.toFixed(1)}</div>
+              <CoinIcon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-[#a08a4a]" />
+              <div className="text-[10px] sm:text-xs text-[#8b8b7a]">ARC</div>
+              <div className="font-bold text-sm sm:text-lg text-[#d7ceb2]">{user.statWealth.toFixed(1)}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 relative z-10">
         {/* Daily Quests - Elden Ring style */}
-        <div className="space-y-4 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          <h2 className="text-xl font-elden font-bold flex items-center gap-2 text-[#c9a227]">
+        <div className="space-y-3 sm:space-y-4 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <h2 className="text-lg sm:text-xl font-elden font-bold flex items-center gap-2 text-[#c9a227]">
             <LightningIcon className="w-6 h-6 text-[#8b4513]" />
             Daily Trials
           </h2>
           {quests.length === 0 ? (
-            <div className="fantasy-card p-6 text-center">
-              <ScrollIcon className="w-12 h-12 mx-auto mb-3 text-[#8b8b7a] opacity-50" />
-              <p className="text-[#8b8b7a]">No trials available today</p>
+            <div className="fantasy-card p-4 sm:p-6 text-center">
+              <ScrollIcon className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-[#8b8b7a] opacity-50" />
+              <p className="text-sm sm:text-base text-[#8b8b7a]">No trials available today</p>
             </div>
           ) : (
             quests.map((quest, index) => {
@@ -290,21 +302,21 @@ export default function Dashboard() {
                   className={`quest-card ${quest.isCompleted ? 'opacity-60' : ''}`}
                   style={{ animationDelay: `${0.15 + index * 0.05}s` }}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-sm ${quest.isCompleted ? 'bg-emerald-900/30' : 'bg-amber-900/30'}`}>
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className={`p-1.5 sm:p-2 rounded-sm shrink-0 ${quest.isCompleted ? 'bg-emerald-900/30' : 'bg-amber-900/30'}`}>
                       {quest.isCompleted ? (
-                        <TrophyIcon className="w-6 h-6 text-emerald-500" />
+                        <TrophyIcon className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500" />
                       ) : (
-                        <ScrollIcon className="w-6 h-6 text-[#8b4513]" />
+                        <ScrollIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#8b4513]" />
                       )}
                     </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-[#d7ceb2]">{quest.title}</div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={`category-badge category-${quest.category.toLowerCase()}`}>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-sm sm:text-base text-[#d7ceb2] truncate">{quest.title}</div>
+                      <div className="flex items-center gap-1.5 sm:gap-2 mt-1 flex-wrap">
+                        <span className={`category-badge category-${quest.category.toLowerCase()} text-[10px] sm:text-xs`}>
                           {quest.category}
                         </span>
-                        <span className={`difficulty-badge difficulty-${quest.difficulty.toLowerCase()}`}>
+                        <span className={`difficulty-badge difficulty-${quest.difficulty.toLowerCase()} text-[10px] sm:text-xs`}>
                           {quest.difficulty}
                         </span>
                         <span className="text-xs text-[#c9a227] flex items-center gap-1">
@@ -332,14 +344,14 @@ export default function Dashboard() {
         </div>
 
         {/* Tasks & Habits - Elden Ring style */}
-        <div className="lg:col-span-2 space-y-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-elden font-bold flex items-center gap-2 text-[#c9a227]">
-              <SparklesIcon className="w-6 h-6 text-[#6b5b7c]" />
+        <div className="lg:col-span-2 space-y-3 sm:space-y-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
+            <h2 className="text-lg sm:text-xl font-elden font-bold flex items-center gap-2 text-[#c9a227]">
+              <SparklesIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#6b5b7c]" />
               Quests & Habits
             </h2>
             <button 
-              className="px-4 py-2 bg-gradient-to-r from-amber-900 to-amber-800 hover:from-amber-800 hover:to-amber-700 text-amber-200 font-elden text-sm rounded-sm border border-amber-600 transition-all flex items-center gap-2"
+              className="px-3 sm:px-4 py-2 bg-gradient-to-r from-amber-900 to-amber-800 hover:from-amber-800 hover:to-amber-700 text-amber-200 font-elden text-sm rounded-sm border border-amber-600 transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
               onClick={() => setIsCreateOpen(!isCreateOpen)}
             >
               <PlusIcon className="w-4 h-4" /> New Quest
@@ -348,7 +360,7 @@ export default function Dashboard() {
 
           {isCreateOpen && <CreateTaskForm onClose={() => setIsCreateOpen(false)} />}
 
-          <div className="grid gap-4">
+          <div className="grid gap-3 sm:gap-4">
             {tasks.map((task, index) => {
               const taskXp = difficultyXp[task.difficulty] || 15;
               return (
@@ -357,13 +369,13 @@ export default function Dashboard() {
                   className="task-card"
                   style={{ animationDelay: `${0.25 + index * 0.05}s` }}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className={`p-2 rounded-sm bg-stone-800/50 border border-stone-600`}>
-                      {statIcons[task.category] || <TargetIcon className="w-6 h-6 text-[#8b8b7a]" />}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                    <div className={`p-2 rounded-sm bg-stone-800/50 border border-stone-600 self-start sm:self-auto`}>
+                      {statIcons[task.category] || <TargetIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#8b8b7a]" />}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-[#d7ceb2]">{task.title}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-medium text-[#d7ceb2] text-sm sm:text-base">{task.title}</span>
                         {task.isHabit && task.streakCurrent > 0 && (
                           <span className="flex items-center gap-1 px-2 py-0.5 bg-red-900/30 rounded-sm text-xs text-red-300 border border-red-800/40">
                             <FlameIcon className="w-3 h-3" />
@@ -371,23 +383,23 @@ export default function Dashboard() {
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={`category-badge category-${task.category.toLowerCase()}`}>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <span className={`category-badge category-${task.category.toLowerCase()} text-[10px] sm:text-xs`}>
                           {task.category}
                         </span>
-                        <span className={`difficulty-badge difficulty-${task.difficulty.toLowerCase()}`}>
+                        <span className={`difficulty-badge difficulty-${task.difficulty.toLowerCase()} text-[10px] sm:text-xs`}>
                           {task.difficulty}
                         </span>
-                        <span className="text-xs text-[#8b8b7a]">
+                        <span className="text-[10px] sm:text-xs text-[#8b8b7a] hidden sm:inline">
                           {task.isHabit ? '🔄 Habit' : '⚔ One-time'}
                         </span>
-                        <span className="text-xs text-[#c9a227] flex items-center gap-1 ml-auto">
+                        <span className="text-[10px] sm:text-xs text-[#c9a227] flex items-center gap-1 sm:ml-auto">
                           <StarIcon className="w-3 h-3" /> +{taskXp}
                         </span>
                       </div>
                     </div>
                     <button 
-                      className="px-4 py-2 bg-gradient-to-r from-emerald-900 to-emerald-800 hover:from-emerald-800 hover:to-emerald-700 text-emerald-200 text-sm rounded-sm border border-emerald-700 transition-all"
+                      className="px-3 sm:px-4 py-2 bg-gradient-to-r from-emerald-900 to-emerald-800 hover:from-emerald-800 hover:to-emerald-700 text-emerald-200 text-sm rounded-sm border border-emerald-700 transition-all w-full sm:w-auto shrink-0"
                       onClick={(e) => handleCompleteTask(task.id, taskXp, task.category, e)}
                     >
                       Complete
@@ -459,7 +471,7 @@ export default function Dashboard() {
       </div>
 
       {/* Achievement Section - Mixed RPG style */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }} id="achievements">
+      <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 animate-slide-up relative z-10" style={{ animationDelay: '0.4s' }} id="achievements">
         <div className="fantasy-card p-4 hover:border-[#c9a227]/40 transition-colors">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-sm bg-amber-900/30 border border-amber-700/40">

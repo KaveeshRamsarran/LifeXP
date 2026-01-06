@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   StarIcon, 
   CrownIcon, 
@@ -153,121 +153,121 @@ const questNodes: QuestNode[] = [
   // ═══════════════════════════════════════════════════════════════════════════════
   // ACT 1: THE AWAKENING (Starting Zone - Tutorial)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 0, type: 'start', x: 80, y: 400, completed: true, locked: false, reward: 0, title: 'The Awakening', description: 'Your journey begins here, Adventurer', oneTime: true },
-  { id: 1, type: 'battle', x: 160, y: 350, completed: false, locked: false, reward: 15, title: 'First Blood', description: 'Complete 3 daily tasks', oneTime: true },
-  { id: 2, type: 'treasure', x: 240, y: 300, completed: false, locked: false, reward: 25, title: 'Treasure Chest', description: 'Maintain a 3-day streak', oneTime: true },
-  { id: 3, type: 'rest', x: 320, y: 260, completed: false, locked: false, reward: 10, title: 'Inn Rest', description: 'Take a moment to reflect' },
-  { id: 4, type: 'mystery', x: 260, y: 420, completed: false, locked: false, reward: 30, title: 'Strange Portal', description: 'Accept a random challenge' },
-  { id: 5, type: 'battle', x: 400, y: 300, completed: false, locked: false, reward: 20, title: 'Goblin Camp', description: 'Complete 5 tasks in one day', oneTime: true },
-  { id: 6, type: 'shop', x: 340, y: 380, completed: false, locked: false, reward: 15, title: 'Village Market', description: 'Browse character upgrades' },
-  { id: 7, type: 'battle', x: 420, y: 420, completed: false, locked: false, reward: 25, title: 'Bandit Ambush', description: 'Complete 2 hard tasks', oneTime: true },
+  { id: 0, type: 'start', x: 80, y: 400, completed: true, locked: false, reward: 0, title: 'The Awakening', description: 'Create your account and begin your journey', oneTime: true },
+  { id: 1, type: 'battle', x: 160, y: 350, completed: false, locked: false, reward: 15, title: 'First Steps', description: 'Make your bed for 3 days in a row', oneTime: true },
+  { id: 2, type: 'treasure', x: 240, y: 300, completed: false, locked: false, reward: 25, title: 'Early Riser', description: 'Wake up before 7 AM for 3 days', oneTime: true },
+  { id: 3, type: 'rest', x: 320, y: 260, completed: false, locked: false, reward: 10, title: 'Meditation', description: 'Meditate for 10 minutes' },
+  { id: 4, type: 'mystery', x: 260, y: 420, completed: false, locked: false, reward: 30, title: 'Strange Portal', description: '???' },
+  { id: 5, type: 'battle', x: 400, y: 300, completed: false, locked: false, reward: 20, title: 'Productivity Burst', description: 'Complete 5 tasks in one day', oneTime: true },
+  { id: 6, type: 'shop', x: 340, y: 380, completed: false, locked: false, reward: 15, title: 'Self Investment', description: 'Read for 30 minutes' },
+  { id: 7, type: 'battle', x: 420, y: 420, completed: false, locked: false, reward: 25, title: 'Deep Work', description: 'Focus on a project for 2 hours without distractions', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
-  // ACT 2: CASTLE SIEGE (Dark Souls / Zelda vibes)
+  // ACT 2: CASTLE SIEGE (Building Habits)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 8, type: 'checkpoint', x: 500, y: 260, completed: false, locked: true, reward: 50, title: 'Castle Gates', description: 'Reach Level 3', oneTime: true },
-  { id: 9, type: 'battle', x: 580, y: 200, completed: false, locked: true, reward: 30, title: 'Gate Guards', description: 'Complete 3 hard tasks', oneTime: true },
-  { id: 10, type: 'mystery', x: 520, y: 360, completed: false, locked: true, reward: 35, title: 'Hidden Passage', description: 'Secret challenge awaits' },
-  { id: 11, type: 'treasure', x: 600, y: 320, completed: false, locked: true, reward: 40, title: 'Armory', description: 'Earn 150 total XP', oneTime: true },
-  { id: 12, type: 'battle', x: 680, y: 260, completed: false, locked: true, reward: 35, title: 'Dark Knight', description: 'Complete a weekly quest', oneTime: true },
-  { id: 13, type: 'rest', x: 620, y: 420, completed: false, locked: true, reward: 15, title: 'Chapel Rest', description: 'Maintain a 5-day streak' },
-  { id: 14, type: 'shop', x: 700, y: 380, completed: false, locked: true, reward: 20, title: 'Blacksmith', description: 'Upgrade your gear' },
-  { id: 15, type: 'mystery', x: 760, y: 320, completed: false, locked: true, reward: 45, title: 'Cursed Chamber', description: 'Face the unknown' },
-  { id: 16, type: 'boss', x: 820, y: 240, completed: false, locked: true, reward: 100, title: 'The Warden', description: 'Complete all Act 2 quests', oneTime: true },
+  { id: 8, type: 'checkpoint', x: 500, y: 260, completed: false, locked: true, reward: 50, title: 'Habit Foundation', description: 'Reach Level 3', oneTime: true },
+  { id: 9, type: 'battle', x: 580, y: 200, completed: false, locked: true, reward: 30, title: 'Kitchen Master', description: 'Cook a healthy meal from scratch', oneTime: true },
+  { id: 10, type: 'mystery', x: 520, y: 360, completed: false, locked: true, reward: 35, title: 'Hidden Passage', description: '???' },
+  { id: 11, type: 'treasure', x: 600, y: 320, completed: false, locked: true, reward: 40, title: 'XP Milestone', description: 'Earn 150 total XP', oneTime: true },
+  { id: 12, type: 'battle', x: 680, y: 260, completed: false, locked: true, reward: 35, title: 'Weekly Review', description: 'Plan your week on Sunday', oneTime: true },
+  { id: 13, type: 'rest', x: 620, y: 420, completed: false, locked: true, reward: 15, title: 'Digital Detox', description: 'No social media for 24 hours' },
+  { id: 14, type: 'shop', x: 700, y: 380, completed: false, locked: true, reward: 20, title: 'Skill Building', description: 'Watch an educational video and take notes' },
+  { id: 15, type: 'mystery', x: 760, y: 320, completed: false, locked: true, reward: 45, title: 'Cursed Chamber', description: '???' },
+  { id: 16, type: 'boss', x: 820, y: 240, completed: false, locked: true, reward: 100, title: 'Declutter Boss', description: 'Deep clean one room in your home', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
-  // ACT 3: ENCHANTED FOREST (Final Fantasy / Skyrim vibes)
+  // ACT 3: ENCHANTED FOREST (Health & Fitness)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 17, type: 'checkpoint', x: 920, y: 280, completed: false, locked: true, reward: 60, title: 'Forest Entrance', description: 'Defeat The Warden', oneTime: true },
-  { id: 18, type: 'battle', x: 1000, y: 220, completed: false, locked: true, reward: 35, title: 'Wolf Pack', description: 'Complete 10 tasks total', oneTime: true },
-  { id: 19, type: 'mystery', x: 980, y: 360, completed: false, locked: true, reward: 40, title: 'Fairy Circle', description: 'Magical challenge awaits' },
-  { id: 20, type: 'treasure', x: 1080, y: 280, completed: false, locked: true, reward: 50, title: 'Ancient Tree', description: 'Earn 300 total XP', oneTime: true },
-  { id: 21, type: 'rest', x: 1060, y: 400, completed: false, locked: true, reward: 20, title: 'Moonwell', description: 'Maintain a 7-day streak' },
-  { id: 22, type: 'battle', x: 1160, y: 340, completed: false, locked: true, reward: 40, title: 'Forest Spirits', description: 'Complete 5 hard tasks', oneTime: true },
-  { id: 23, type: 'shop', x: 1140, y: 200, completed: false, locked: true, reward: 25, title: 'Hermit Sage', description: 'Learn new abilities' },
-  { id: 24, type: 'mystery', x: 1240, y: 260, completed: false, locked: true, reward: 50, title: 'Elven Ruins', description: 'Ancient secrets revealed' },
-  { id: 25, type: 'battle', x: 1220, y: 400, completed: false, locked: true, reward: 45, title: 'Treant Guardian', description: 'Reach Level 5', oneTime: true },
-  { id: 26, type: 'boss', x: 1320, y: 300, completed: false, locked: true, reward: 150, title: 'Forest Spirit King', description: 'Master of the woods', oneTime: true },
+  { id: 17, type: 'checkpoint', x: 920, y: 280, completed: false, locked: true, reward: 60, title: 'Fitness Journey', description: 'Complete the Declutter Boss challenge', oneTime: true },
+  { id: 18, type: 'battle', x: 1000, y: 220, completed: false, locked: true, reward: 35, title: 'Morning Jog', description: 'Go for a 20-minute run or walk', oneTime: true },
+  { id: 19, type: 'mystery', x: 980, y: 360, completed: false, locked: true, reward: 40, title: 'Fairy Circle', description: '???' },
+  { id: 20, type: 'treasure', x: 1080, y: 280, completed: false, locked: true, reward: 50, title: 'XP Hoarder', description: 'Earn 300 total XP', oneTime: true },
+  { id: 21, type: 'rest', x: 1060, y: 400, completed: false, locked: true, reward: 20, title: 'Sleep Schedule', description: 'Sleep 8 hours for 7 days straight' },
+  { id: 22, type: 'battle', x: 1160, y: 340, completed: false, locked: true, reward: 40, title: 'Gym Warrior', description: 'Complete 5 gym sessions', oneTime: true },
+  { id: 23, type: 'shop', x: 1140, y: 200, completed: false, locked: true, reward: 25, title: 'Meal Prep', description: 'Prepare meals for the week ahead' },
+  { id: 24, type: 'mystery', x: 1240, y: 260, completed: false, locked: true, reward: 50, title: 'Elven Ruins', description: '???' },
+  { id: 25, type: 'battle', x: 1220, y: 400, completed: false, locked: true, reward: 45, title: 'Push-up Master', description: 'Do 50 push-ups in one day (any sets)', oneTime: true },
+  { id: 26, type: 'boss', x: 1320, y: 300, completed: false, locked: true, reward: 150, title: '5K Champion', description: 'Run or walk a 5K distance', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
-  // ACT 4: VOLCANIC MOUNTAINS (Monster Hunter / Dark Souls vibes)
+  // ACT 4: VOLCANIC MOUNTAINS (Career & Finance)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 27, type: 'checkpoint', x: 1420, y: 340, completed: false, locked: true, reward: 75, title: 'Mountain Pass', description: 'Conquer the forest', oneTime: true },
-  { id: 28, type: 'battle', x: 1500, y: 280, completed: false, locked: true, reward: 50, title: 'Fire Drakes', description: 'Complete 15 tasks total', oneTime: true },
-  { id: 29, type: 'mystery', x: 1480, y: 420, completed: false, locked: true, reward: 55, title: 'Lava Caves', description: 'Hidden volcanic challenge' },
-  { id: 30, type: 'treasure', x: 1580, y: 360, completed: false, locked: true, reward: 65, title: 'Dragon Hoard', description: 'Earn 500 total XP', oneTime: true },
-  { id: 31, type: 'rest', x: 1560, y: 200, completed: false, locked: true, reward: 25, title: 'Hot Springs', description: 'Maintain a 10-day streak' },
-  { id: 32, type: 'battle', x: 1660, y: 260, completed: false, locked: true, reward: 55, title: 'Magma Golem', description: 'Complete 8 hard tasks', oneTime: true },
-  { id: 33, type: 'shop', x: 1640, y: 420, completed: false, locked: true, reward: 30, title: 'Dwarven Forge', description: 'Legendary equipment' },
-  { id: 34, type: 'mystery', x: 1740, y: 340, completed: false, locked: true, reward: 60, title: 'Obsidian Shrine', description: 'Trial of fire' },
-  { id: 35, type: 'battle', x: 1720, y: 180, completed: false, locked: true, reward: 60, title: 'Wyvern Nest', description: 'Reach Level 7', oneTime: true },
-  { id: 36, type: 'boss', x: 1820, y: 280, completed: false, locked: true, reward: 200, title: 'Ancient Dragon', description: 'The mountain lord', oneTime: true },
+  { id: 27, type: 'checkpoint', x: 1420, y: 340, completed: false, locked: true, reward: 75, title: 'Career Path', description: 'Complete the 5K challenge', oneTime: true },
+  { id: 28, type: 'battle', x: 1500, y: 280, completed: false, locked: true, reward: 50, title: 'Resume Update', description: 'Update your resume or portfolio', oneTime: true },
+  { id: 29, type: 'mystery', x: 1480, y: 420, completed: false, locked: true, reward: 55, title: 'Lava Caves', description: '???' },
+  { id: 30, type: 'treasure', x: 1580, y: 360, completed: false, locked: true, reward: 65, title: 'XP Legend', description: 'Earn 500 total XP', oneTime: true },
+  { id: 31, type: 'rest', x: 1560, y: 200, completed: false, locked: true, reward: 25, title: 'Budget Review', description: 'Review your monthly expenses' },
+  { id: 32, type: 'battle', x: 1660, y: 260, completed: false, locked: true, reward: 55, title: 'Side Project', description: 'Work on a personal project for 5 hours total', oneTime: true },
+  { id: 33, type: 'shop', x: 1640, y: 420, completed: false, locked: true, reward: 30, title: 'Online Course', description: 'Complete a module in an online course' },
+  { id: 34, type: 'mystery', x: 1740, y: 340, completed: false, locked: true, reward: 60, title: 'Obsidian Shrine', description: '???' },
+  { id: 35, type: 'battle', x: 1720, y: 180, completed: false, locked: true, reward: 60, title: 'Savings Goal', description: 'Save $100 this month', oneTime: true },
+  { id: 36, type: 'boss', x: 1820, y: 280, completed: false, locked: true, reward: 200, title: 'Certification', description: 'Earn a professional certification or complete a course', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
-  // ACT 5: FROZEN WASTES (Skyrim / God of War vibes)
+  // ACT 5: FROZEN WASTES (Discipline & Consistency)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 37, type: 'checkpoint', x: 1920, y: 320, completed: false, locked: true, reward: 90, title: 'Ice Gate', description: 'Slay the dragon', oneTime: true },
-  { id: 38, type: 'battle', x: 2000, y: 260, completed: false, locked: true, reward: 55, title: 'Frost Giants', description: 'Complete 20 tasks total', oneTime: true },
-  { id: 39, type: 'mystery', x: 1980, y: 400, completed: false, locked: true, reward: 65, title: 'Frozen Tomb', description: 'Ancient warrior\'s trial' },
-  { id: 40, type: 'treasure', x: 2080, y: 340, completed: false, locked: true, reward: 75, title: 'Ice Palace', description: 'Earn 750 total XP', oneTime: true },
-  { id: 41, type: 'rest', x: 2060, y: 180, completed: false, locked: true, reward: 30, title: 'Aurora Shrine', description: 'Maintain a 14-day streak' },
-  { id: 42, type: 'battle', x: 2160, y: 240, completed: false, locked: true, reward: 65, title: 'Ice Wraiths', description: 'Complete 10 hard tasks', oneTime: true },
-  { id: 43, type: 'shop', x: 2140, y: 400, completed: false, locked: true, reward: 35, title: 'Nordic Trader', description: 'Rare frost gear' },
-  { id: 44, type: 'mystery', x: 2240, y: 320, completed: false, locked: true, reward: 70, title: 'Glacier Heart', description: 'Test of endurance' },
-  { id: 45, type: 'battle', x: 2220, y: 160, completed: false, locked: true, reward: 70, title: 'Frost Wyrm', description: 'Reach Level 9', oneTime: true },
-  { id: 46, type: 'boss', x: 2320, y: 260, completed: false, locked: true, reward: 250, title: 'Ice Titan', description: 'Lord of the frozen wastes', oneTime: true },
+  { id: 37, type: 'checkpoint', x: 1920, y: 320, completed: false, locked: true, reward: 90, title: 'Iron Will', description: 'Complete the Certification challenge', oneTime: true },
+  { id: 38, type: 'battle', x: 2000, y: 260, completed: false, locked: true, reward: 55, title: 'Cold Shower', description: 'Take cold showers for 5 days', oneTime: true },
+  { id: 39, type: 'mystery', x: 1980, y: 400, completed: false, locked: true, reward: 65, title: 'Frozen Tomb', description: '???' },
+  { id: 40, type: 'treasure', x: 2080, y: 340, completed: false, locked: true, reward: 75, title: 'XP Master', description: 'Earn 750 total XP', oneTime: true },
+  { id: 41, type: 'rest', x: 2060, y: 180, completed: false, locked: true, reward: 30, title: '2-Week Streak', description: 'Maintain a 14-day task streak' },
+  { id: 42, type: 'battle', x: 2160, y: 240, completed: false, locked: true, reward: 65, title: 'No Junk Food', description: 'Avoid junk food for 7 days', oneTime: true },
+  { id: 43, type: 'shop', x: 2140, y: 400, completed: false, locked: true, reward: 35, title: 'Journaling', description: 'Write in a journal for 7 consecutive days' },
+  { id: 44, type: 'mystery', x: 2240, y: 320, completed: false, locked: true, reward: 70, title: 'Glacier Heart', description: '???' },
+  { id: 45, type: 'battle', x: 2220, y: 160, completed: false, locked: true, reward: 70, title: 'Phone-Free Day', description: 'Go an entire day without your phone', oneTime: true },
+  { id: 46, type: 'boss', x: 2320, y: 260, completed: false, locked: true, reward: 250, title: '30-Day Challenge', description: 'Complete any 30-day challenge', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
-  // ACT 6: SHADOW REALM (Elden Ring / Bloodborne vibes)
+  // ACT 6: SHADOW REALM (Mental & Emotional Growth)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 47, type: 'checkpoint', x: 2420, y: 300, completed: false, locked: true, reward: 100, title: 'Shadow Gate', description: 'Defeat the Ice Titan', oneTime: true },
-  { id: 48, type: 'battle', x: 2500, y: 240, completed: false, locked: true, reward: 65, title: 'Nightmare Knights', description: 'Complete 30 tasks total', oneTime: true },
-  { id: 49, type: 'mystery', x: 2480, y: 380, completed: false, locked: true, reward: 75, title: 'Void Tear', description: 'Face your shadow self' },
-  { id: 50, type: 'treasure', x: 2580, y: 320, completed: false, locked: true, reward: 85, title: 'Abyssal Vault', description: 'Earn 1000 total XP', oneTime: true },
-  { id: 51, type: 'rest', x: 2560, y: 160, completed: false, locked: true, reward: 35, title: 'Dream Sanctuary', description: 'Maintain a 21-day streak' },
-  { id: 52, type: 'battle', x: 2660, y: 220, completed: false, locked: true, reward: 75, title: 'Shadow Beasts', description: 'Complete 15 hard tasks', oneTime: true },
-  { id: 53, type: 'shop', x: 2640, y: 380, completed: false, locked: true, reward: 40, title: 'Ethereal Merchant', description: 'Otherworldly items' },
-  { id: 54, type: 'mystery', x: 2740, y: 300, completed: false, locked: true, reward: 80, title: 'Memory Fragment', description: 'Unlock hidden memories' },
-  { id: 55, type: 'battle', x: 2720, y: 140, completed: false, locked: true, reward: 80, title: 'Dark Reflection', description: 'Reach Level 12', oneTime: true },
-  { id: 56, type: 'boss', x: 2820, y: 240, completed: false, locked: true, reward: 300, title: 'Shadow Lord', description: 'Master of darkness', oneTime: true },
+  { id: 47, type: 'checkpoint', x: 2420, y: 300, completed: false, locked: true, reward: 100, title: 'Inner Peace', description: 'Complete the 30-Day Challenge', oneTime: true },
+  { id: 48, type: 'battle', x: 2500, y: 240, completed: false, locked: true, reward: 65, title: 'Therapy Session', description: 'Attend a therapy or counseling session', oneTime: true },
+  { id: 49, type: 'mystery', x: 2480, y: 380, completed: false, locked: true, reward: 75, title: 'Void Tear', description: '???' },
+  { id: 50, type: 'treasure', x: 2580, y: 320, completed: false, locked: true, reward: 85, title: 'XP Champion', description: 'Earn 1000 total XP', oneTime: true },
+  { id: 51, type: 'rest', x: 2560, y: 160, completed: false, locked: true, reward: 35, title: '3-Week Streak', description: 'Maintain a 21-day task streak' },
+  { id: 52, type: 'battle', x: 2660, y: 220, completed: false, locked: true, reward: 75, title: 'Forgiveness', description: 'Forgive someone who hurt you (write a letter)', oneTime: true },
+  { id: 53, type: 'shop', x: 2640, y: 380, completed: false, locked: true, reward: 40, title: 'Gratitude', description: 'Write 100 things you are grateful for' },
+  { id: 54, type: 'mystery', x: 2740, y: 300, completed: false, locked: true, reward: 80, title: 'Memory Fragment', description: '???' },
+  { id: 55, type: 'battle', x: 2720, y: 140, completed: false, locked: true, reward: 80, title: 'Public Speaking', description: 'Give a presentation or speak in public', oneTime: true },
+  { id: 56, type: 'boss', x: 2820, y: 240, completed: false, locked: true, reward: 300, title: 'Life Vision', description: 'Create a detailed 5-year life plan', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
-  // ACT 7: CELESTIAL REALM (Kingdom Hearts / Final Fantasy vibes)
+  // ACT 7: CELESTIAL REALM (Relationships & Community)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 57, type: 'checkpoint', x: 2920, y: 280, completed: false, locked: true, reward: 120, title: 'Heaven\'s Gate', description: 'Conquer darkness', oneTime: true },
-  { id: 58, type: 'battle', x: 3000, y: 220, completed: false, locked: true, reward: 75, title: 'Celestial Sentinels', description: 'Complete 40 tasks total', oneTime: true },
-  { id: 59, type: 'mystery', x: 2980, y: 360, completed: false, locked: true, reward: 85, title: 'Star Forge', description: 'Cosmic challenge' },
-  { id: 60, type: 'treasure', x: 3080, y: 300, completed: false, locked: true, reward: 100, title: 'Astral Treasury', description: 'Earn 1500 total XP', oneTime: true },
-  { id: 61, type: 'rest', x: 3060, y: 140, completed: false, locked: true, reward: 40, title: 'Cloud Temple', description: 'Maintain a 30-day streak' },
-  { id: 62, type: 'battle', x: 3160, y: 200, completed: false, locked: true, reward: 85, title: 'Angelic Warriors', description: 'Complete 20 hard tasks', oneTime: true },
-  { id: 63, type: 'shop', x: 3140, y: 360, completed: false, locked: true, reward: 50, title: 'Divine Armory', description: 'Legendary divine gear' },
-  { id: 64, type: 'mystery', x: 3240, y: 280, completed: false, locked: true, reward: 95, title: 'Constellation Puzzle', description: 'Unlock the stars' },
-  { id: 65, type: 'battle', x: 3220, y: 120, completed: false, locked: true, reward: 90, title: 'Seraphim Guard', description: 'Reach Level 15', oneTime: true },
-  { id: 66, type: 'boss', x: 3320, y: 220, completed: false, locked: true, reward: 350, title: 'Archangel', description: 'Guardian of the heavens', oneTime: true },
+  { id: 57, type: 'checkpoint', x: 2920, y: 280, completed: false, locked: true, reward: 120, title: 'Social Mastery', description: 'Complete your Life Vision', oneTime: true },
+  { id: 58, type: 'battle', x: 3000, y: 220, completed: false, locked: true, reward: 75, title: 'Family Dinner', description: 'Host a dinner for family or friends', oneTime: true },
+  { id: 59, type: 'mystery', x: 2980, y: 360, completed: false, locked: true, reward: 85, title: 'Star Forge', description: '???' },
+  { id: 60, type: 'treasure', x: 3080, y: 300, completed: false, locked: true, reward: 100, title: 'XP Grandmaster', description: 'Earn 1500 total XP', oneTime: true },
+  { id: 61, type: 'rest', x: 3060, y: 140, completed: false, locked: true, reward: 40, title: 'Monthly Streak', description: 'Maintain a 30-day task streak' },
+  { id: 62, type: 'battle', x: 3160, y: 200, completed: false, locked: true, reward: 85, title: 'Mentorship', description: 'Mentor someone or find a mentor', oneTime: true },
+  { id: 63, type: 'shop', x: 3140, y: 360, completed: false, locked: true, reward: 50, title: 'Date Night', description: 'Plan a special outing with loved one' },
+  { id: 64, type: 'mystery', x: 3240, y: 280, completed: false, locked: true, reward: 95, title: 'Constellation Puzzle', description: '???' },
+  { id: 65, type: 'battle', x: 3220, y: 120, completed: false, locked: true, reward: 90, title: 'Community Event', description: 'Organize or lead a community event', oneTime: true },
+  { id: 66, type: 'boss', x: 3320, y: 220, completed: false, locked: true, reward: 350, title: 'Life Coach', description: 'Help 3 people achieve their goals', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
-  // ACT 8: THE FINAL SUMMIT (Epic Conclusion)
+  // ACT 8: THE FINAL SUMMIT (Life Mastery)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 67, type: 'checkpoint', x: 3420, y: 260, completed: false, locked: true, reward: 150, title: 'World\'s Edge', description: 'Ascend to the summit', oneTime: true },
-  { id: 68, type: 'battle', x: 3500, y: 200, completed: false, locked: true, reward: 90, title: 'Titan Guardians', description: 'Complete 50 tasks total', oneTime: true },
-  { id: 69, type: 'mystery', x: 3480, y: 340, completed: false, locked: true, reward: 100, title: 'Reality Rift', description: 'Ultimate random challenge' },
-  { id: 70, type: 'treasure', x: 3580, y: 280, completed: false, locked: true, reward: 125, title: 'Infinity Vault', description: 'Earn 2000 total XP', oneTime: true },
-  { id: 71, type: 'rest', x: 3560, y: 120, completed: false, locked: true, reward: 50, title: 'Summit Bonfire', description: 'Maintain a 60-day streak' },
-  { id: 72, type: 'battle', x: 3660, y: 180, completed: false, locked: true, reward: 100, title: 'Elemental Lords', description: 'Complete 25 hard tasks', oneTime: true },
-  { id: 73, type: 'shop', x: 3640, y: 340, completed: false, locked: true, reward: 60, title: 'Cosmic Forge', description: 'Ultimate equipment' },
-  { id: 74, type: 'mystery', x: 3740, y: 260, completed: false, locked: true, reward: 120, title: 'Origin Gate', description: 'The final secret' },
-  { id: 75, type: 'battle', x: 3720, y: 100, completed: false, locked: true, reward: 110, title: 'Avatar of Order', description: 'Reach Level 20', oneTime: true },
-  { id: 76, type: 'boss', x: 3840, y: 200, completed: false, locked: true, reward: 500, title: 'The Creator', description: 'The ultimate challenge', oneTime: true },
+  { id: 67, type: 'checkpoint', x: 3420, y: 260, completed: false, locked: true, reward: 150, title: 'Life Master', description: 'Complete the Life Coach challenge', oneTime: true },
+  { id: 68, type: 'battle', x: 3500, y: 200, completed: false, locked: true, reward: 90, title: 'Marathon', description: 'Run a half or full marathon', oneTime: true },
+  { id: 69, type: 'mystery', x: 3480, y: 340, completed: false, locked: true, reward: 100, title: 'Reality Rift', description: '???' },
+  { id: 70, type: 'treasure', x: 3580, y: 280, completed: false, locked: true, reward: 125, title: 'XP Immortal', description: 'Earn 2000 total XP', oneTime: true },
+  { id: 71, type: 'rest', x: 3560, y: 120, completed: false, locked: true, reward: 50, title: '60-Day Streak', description: 'Maintain a 60-day task streak' },
+  { id: 72, type: 'battle', x: 3660, y: 180, completed: false, locked: true, reward: 100, title: 'Business Launch', description: 'Start a side business or major project', oneTime: true },
+  { id: 73, type: 'shop', x: 3640, y: 340, completed: false, locked: true, reward: 60, title: 'Dream Vacation', description: 'Plan and take your dream trip' },
+  { id: 74, type: 'mystery', x: 3740, y: 260, completed: false, locked: true, reward: 120, title: 'Origin Gate', description: '???' },
+  { id: 75, type: 'battle', x: 3720, y: 100, completed: false, locked: true, reward: 110, title: 'Financial Freedom', description: 'Build 6 months emergency fund', oneTime: true },
+  { id: 76, type: 'boss', x: 3840, y: 200, completed: false, locked: true, reward: 500, title: 'Life Champion', description: 'Achieve a major life goal you set at the start', oneTime: true },
   
   // ═══════════════════════════════════════════════════════════════════════════════
   // SECRET ZONE: HIDDEN PATHS (Bonus content)
   // ═══════════════════════════════════════════════════════════════════════════════
-  { id: 77, type: 'mystery', x: 400, y: 500, completed: false, locked: true, reward: 100, title: 'Hidden Grotto', description: 'Secret early game path' },
-  { id: 78, type: 'treasure', x: 1100, y: 500, completed: false, locked: true, reward: 150, title: 'Pirate\'s Cove', description: 'Hidden treasure trove' },
-  { id: 79, type: 'mystery', x: 1800, y: 500, completed: false, locked: true, reward: 175, title: 'Time Rift', description: 'Challenge from the past' },
-  { id: 80, type: 'treasure', x: 2500, y: 500, completed: false, locked: true, reward: 200, title: 'Void Cache', description: 'Rewards from the abyss' },
-  { id: 81, type: 'mystery', x: 3200, y: 500, completed: false, locked: true, reward: 250, title: 'Quantum Realm', description: 'Reality-bending challenge' },
-  { id: 82, type: 'boss', x: 3600, y: 500, completed: false, locked: true, reward: 1000, title: 'True Final Boss', description: 'The real ending awaits...', oneTime: true },
+  { id: 77, type: 'mystery', x: 400, y: 500, completed: false, locked: true, reward: 100, title: 'Hidden Grotto', description: '???' },
+  { id: 78, type: 'treasure', x: 1100, y: 500, completed: false, locked: true, reward: 150, title: 'Hidden Talent', description: 'Perform your hidden talent publicly' },
+  { id: 79, type: 'mystery', x: 1800, y: 500, completed: false, locked: true, reward: 175, title: 'Time Rift', description: '???' },
+  { id: 80, type: 'treasure', x: 2500, y: 500, completed: false, locked: true, reward: 200, title: 'Anonymous Hero', description: 'Do 10 anonymous good deeds' },
+  { id: 81, type: 'mystery', x: 3200, y: 500, completed: false, locked: true, reward: 250, title: 'Quantum Realm', description: '???' },
+  { id: 82, type: 'boss', x: 3600, y: 500, completed: false, locked: true, reward: 1000, title: 'True Champion', description: 'Complete every quest on the map', oneTime: true },
 ];
 
 const questPaths: QuestPath[] = [
@@ -465,6 +465,12 @@ export default function QuestMap({
   const [showMysteryModal, setShowMysteryModal] = useState(false);
   const [currentMysteryTask, setCurrentMysteryTask] = useState<MysteryTask | null>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  
+  // Mouse drag state for map panning
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, scrollPos: 0 });
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
   // Merge local completed IDs with passed-in completedNodeIds
   const allCompletedIds = new Set([...completedQuestIds, ...completedNodeIds]);
@@ -621,6 +627,55 @@ export default function QuestMap({
     }
   };
 
+  // Mouse drag handlers for map panning
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Only start drag with left mouse button
+    if (e.button !== 0) return;
+    setIsDragging(true);
+    setDragStart({ x: e.clientX, scrollPos: scrollPosition });
+    e.preventDefault();
+  }, [scrollPosition]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const deltaX = dragStart.x - e.clientX;
+    const newScrollPos = Math.max(0, Math.min(3500, dragStart.scrollPos + deltaX));
+    setScrollPosition(newScrollPos);
+  }, [isDragging, dragStart]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // Add global mouse up listener for when mouse is released outside the container
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+    };
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+  }, []);
+
+  // Handle escape key to exit fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreen]);
+
+  // Toggle fullscreen mode
+  const toggleFullscreen = useCallback(() => {
+    setIsFullscreen(prev => !prev);
+  }, []);
+
   return (
     <div className="quest-map-container relative">
       {/* Reward popup */}
@@ -635,12 +690,12 @@ export default function QuestMap({
       )}
 
       {/* Map header */}
-      <div className="flex items-center justify-between mb-4" id="map">
-        <h2 className="text-xl font-elden font-bold text-[#c9a227] flex items-center gap-2">
-          <ScrollIcon className="w-6 h-6" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2" id="map">
+        <h2 className="text-lg sm:text-xl font-elden font-bold text-[#c9a227] flex items-center gap-2">
+          <ScrollIcon className="w-5 h-5 sm:w-6 sm:h-6" />
           World Map
         </h2>
-        <div className="flex items-center gap-4 text-sm">
+        <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm">
           <span className="text-[#8b8b7a]">Progress:</span>
           <span className="text-[#2d5a27] font-bold">
             {allCompletedIds.size}/{questNodes.length}
@@ -649,65 +704,96 @@ export default function QuestMap({
       </div>
 
       {/* Scroll controls */}
-      <div className="flex gap-2 mb-2">
+      <div className="flex flex-wrap gap-2 mb-2">
         <button 
-          className={`px-3 py-1 bg-stone-800 hover:bg-stone-700 border border-stone-600 text-[#d7ceb2] text-sm rounded transition-colors ${scrollPosition <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`px-2 sm:px-3 py-1 bg-stone-800 hover:bg-stone-700 border border-stone-600 text-[#d7ceb2] text-xs sm:text-sm rounded transition-colors ${scrollPosition <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={() => setScrollPosition(prev => Math.max(0, prev - 400))}
           disabled={scrollPosition <= 0}
         >
-          ← West
+          ← <span className="hidden sm:inline">West</span>
         </button>
         <button 
-          className={`px-3 py-1 bg-stone-800 hover:bg-stone-700 border border-stone-600 text-[#d7ceb2] text-sm rounded transition-colors ${scrollPosition >= 3500 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`px-2 sm:px-3 py-1 bg-stone-800 hover:bg-stone-700 border border-stone-600 text-[#d7ceb2] text-xs sm:text-sm rounded transition-colors ${scrollPosition >= 3500 ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={() => setScrollPosition(prev => Math.min(3500, prev + 400))}
           disabled={scrollPosition >= 3500}
         >
-          East →
+          <span className="hidden sm:inline">East</span> →
         </button>
-        <span className="text-xs text-[#8b8b7a] ml-auto self-center">Drag or use arrows to explore the realm</span>
+        <button 
+          className="px-2 sm:px-3 py-1 bg-stone-800 hover:bg-stone-700 border border-stone-600 text-[#d7ceb2] text-xs sm:text-sm rounded transition-colors flex items-center gap-1"
+          onClick={toggleFullscreen}
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+          </svg>
+          <span className="hidden sm:inline">Fullscreen</span>
+        </button>
+        <span className="text-[10px] sm:text-xs text-[#8b8b7a] ml-auto self-center hidden md:block">Drag or use arrows to explore the realm</span>
       </div>
 
       {/* Map container with horizontal scroll */}
       <div 
-        className="relative w-full h-[550px] bg-gradient-to-br from-stone-900/95 to-stone-950/95 rounded border border-[#c9a227]/20 overflow-hidden"
-        style={{ cursor: 'grab' }}
+        ref={mapContainerRef}
+        className={`relative rounded border border-[#c9a227]/20 overflow-hidden select-none transition-all duration-300 touch-pan-x ${
+          isFullscreen 
+            ? 'fixed inset-0 z-50 w-screen h-screen rounded-none border-0' 
+            : 'w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px]'
+        }`}
+        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={(e) => {
+          const touch = e.touches[0];
+          setIsDragging(true);
+          setDragStart({ x: touch.clientX, scrollPos: scrollPosition });
+        }}
+        onTouchMove={(e) => {
+          if (!isDragging) return;
+          const touch = e.touches[0];
+          const deltaX = dragStart.x - touch.clientX;
+          const newScrollPos = Math.max(0, Math.min(3500, dragStart.scrollPos + deltaX));
+          setScrollPosition(newScrollPos);
+        }}
+        onTouchEnd={() => setIsDragging(false)}
       >
+        {/* Fullscreen close button */}
+        {isFullscreen && (
+          <button
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 px-3 sm:px-4 py-2 bg-stone-900/90 hover:bg-stone-800 border border-[#c9a227]/50 text-[#c9a227] rounded-sm transition-colors flex items-center gap-2 text-sm"
+            onClick={toggleFullscreen}
+          >
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span className="hidden sm:inline">Exit Fullscreen (Esc)</span>
+          </button>
+        )}
+        
         {/* Scrollable inner container */}
         <div 
-          className="absolute inset-0 transition-transform duration-300 ease-out"
+          className={`absolute inset-0 ${isDragging ? '' : 'transition-transform duration-300 ease-out'}`}
           style={{ 
             width: '4000px',
             transform: `translateX(-${scrollPosition}px)`,
           }}
         >
-          {/* Elden Ring style fog background - expanded for larger map */}
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-10 left-40 w-32 h-32 rounded-full bg-amber-900/20 blur-3xl" />
-            <div className="absolute top-60 left-[600px] w-48 h-48 rounded-full bg-purple-900/20 blur-3xl" />
-            <div className="absolute bottom-20 left-[400px] w-40 h-40 rounded-full bg-red-900/15 blur-3xl" />
-            <div className="absolute top-20 left-[900px] w-36 h-36 rounded-full bg-emerald-900/15 blur-3xl" />
-            <div className="absolute top-40 left-[1200px] w-44 h-44 rounded-full bg-orange-900/20 blur-3xl" />
-            <div className="absolute bottom-40 left-[1500px] w-38 h-38 rounded-full bg-blue-900/20 blur-3xl" />
-            <div className="absolute top-20 left-[1800px] w-50 h-50 rounded-full bg-red-900/20 blur-3xl" />
-            <div className="absolute bottom-20 left-[2100px] w-42 h-42 rounded-full bg-cyan-900/20 blur-3xl" />
-            <div className="absolute top-60 left-[2400px] w-46 h-46 rounded-full bg-violet-900/20 blur-3xl" />
-            <div className="absolute bottom-40 left-[2700px] w-40 h-40 rounded-full bg-indigo-900/20 blur-3xl" />
-            <div className="absolute top-30 left-[3000px] w-48 h-48 rounded-full bg-amber-900/20 blur-3xl" />
-            <div className="absolute bottom-20 left-[3300px] w-44 h-44 rounded-full bg-pink-900/20 blur-3xl" />
-            <div className="absolute top-20 left-[3600px] w-52 h-52 rounded-full bg-gold/10 blur-3xl" />
-          </div>
-
-          {/* Grid pattern - weathered stone */}
-          <div className="absolute inset-0 opacity-5">
-            <svg className="w-full h-full">
-              <defs>
-                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#c9a227" strokeWidth="0.5" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-          </div>
+          {/* Pixel art fantasy map background */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/pixel-art-fantasy-map-v0-z76b6jwd36se1.webp)',
+              backgroundSize: isFullscreen ? 'contain' : 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'repeat-x',
+              width: '4000px',
+              height: '100%',
+            }}
+          />
+          
+          {/* Dark overlay for better node visibility */}
+          <div className="absolute inset-0 bg-black/30" />
 
         {/* Paths between nodes - Elden Ring golden paths */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -788,10 +874,20 @@ export default function QuestMap({
               ${selectedNode?.id === node.id ? 'ring-2 ring-[#f4e4a6] ring-offset-2 ring-offset-stone-900 scale-110' : ''}
               ${!isLocked && !completed ? 'animate-pulse-subtle' : ''}
             `}
-            style={{ left: node.x, top: node.y }}
+            style={{ 
+              left: node.x, 
+              top: node.y,
+              boxShadow: isLocked 
+                ? 'none' 
+                : completed 
+                  ? '0 0 12px 2px rgba(45, 90, 39, 0.5), inset 0 1px 1px rgba(255,255,255,0.1)'
+                  : '0 0 15px 3px rgba(201, 162, 39, 0.4), inset 0 1px 1px rgba(255,255,255,0.15)'
+            }}
             onClick={() => handleNodeClick(node)}
             disabled={isLocked}
           >
+            {/* Inner gradient overlay for depth */}
+            <div className="absolute inset-0 rounded-sm bg-gradient-to-t from-black/30 via-transparent to-white/10 pointer-events-none" />
             <NodeIcon type={node.type} completed={completed} />
             
             {/* Completion checkmark - Grace marker style */}
@@ -846,8 +942,8 @@ export default function QuestMap({
           />
         ))}
 
-        {/* Map legend - RPG style */}
-        <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-[9px]">
+        {/* Map legend - RPG style - hidden on mobile */}
+        <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 hidden sm:flex flex-wrap gap-1 sm:gap-2 text-[8px] sm:text-[9px]">
           {[
             { type: 'battle', label: 'Battle', color: 'bg-red-800' },
             { type: 'treasure', label: 'Treasure', color: 'bg-yellow-700' },
@@ -856,7 +952,7 @@ export default function QuestMap({
             { type: 'mystery', label: 'Mystery', color: 'bg-violet-800' },
             { type: 'checkpoint', label: 'Checkpoint', color: 'bg-cyan-800' },
           ].map(item => (
-            <div key={item.type} className="flex items-center gap-1 px-1.5 py-0.5 bg-stone-900/90 rounded-sm border border-stone-700">
+            <div key={item.type} className="flex items-center gap-1 px-1 sm:px-1.5 py-0.5 bg-stone-900/90 rounded-sm border border-stone-700">
               <div className={`w-2 h-2 rounded-sm ${item.color}`} />
               <span className="text-[#8b8b7a]">{item.label}</span>
             </div>
@@ -867,47 +963,57 @@ export default function QuestMap({
 
       {/* Selected node info - RPG style panel */}
       {selectedNode && (
-        <div className="mt-4 p-4 bg-gradient-to-br from-stone-900/95 to-stone-950/95 border border-[#c9a227]/20 rounded animate-scale-in">
-          <div className="flex items-start gap-4">
-            <div className={`p-3 rounded bg-gradient-to-br ${getNodeColor(selectedNode.type, allCompletedIds.has(selectedNode.id), !isNodeUnlocked(selectedNode.id))}`}>
+        <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gradient-to-br from-stone-900/95 to-stone-950/95 border border-[#c9a227]/20 rounded animate-scale-in">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+            <div className={`p-2 sm:p-3 rounded bg-gradient-to-br ${getNodeColor(selectedNode.type, allCompletedIds.has(selectedNode.id), !isNodeUnlocked(selectedNode.id))} self-start`}>
               <NodeIcon type={selectedNode.type} completed={allCompletedIds.has(selectedNode.id)} />
             </div>
-            <div className="flex-1">
-              <h3 className="font-elden font-bold text-[#c9a227] text-lg">{selectedNode.title}</h3>
-              <p className="text-sm text-[#8b8b7a] mt-1">{selectedNode.description}</p>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="font-elden font-bold text-[#c9a227] text-base sm:text-lg">{selectedNode.title}</h3>
+                {selectedNode.reward > 0 && !allCompletedIds.has(selectedNode.id) && (
+                  <div className="text-right shrink-0 sm:hidden">
+                    <div className="text-sm font-elden font-bold text-[#c9a227] flex items-center gap-1">
+                      <StarIcon className="w-4 h-4" />
+                      +{selectedNode.reward}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs sm:text-sm text-[#8b8b7a] mt-1">{selectedNode.description}</p>
               {selectedNode.oneTime && !allCompletedIds.has(selectedNode.id) && (
-                <span className="inline-flex items-center gap-1 mt-2 text-xs text-amber-500 bg-amber-900/30 px-2 py-0.5 rounded-sm">
-                  ⚠ One-time quest - Cannot be repeated
+                <span className="inline-flex items-center gap-1 mt-2 text-[10px] sm:text-xs text-amber-500 bg-amber-900/30 px-2 py-0.5 rounded-sm">
+                  ⚠ One-time quest
                 </span>
               )}
               {allCompletedIds.has(selectedNode.id) ? (
-                <span className="inline-flex items-center gap-1 mt-2 text-sm text-emerald-500">
+                <span className="inline-flex items-center gap-1 mt-2 text-xs sm:text-sm text-emerald-500">
                   <TrophyIcon className="w-4 h-4" /> Completed
                 </span>
               ) : isNodeUnlocked(selectedNode.id) && (
-                <div className="mt-3 flex gap-2">
+                <div className="mt-3 flex flex-col sm:flex-row gap-2">
                   {selectedNode.type === 'mystery' ? (
                     <button 
-                      className="px-4 py-2 bg-gradient-to-r from-violet-900 to-violet-800 hover:from-violet-800 hover:to-violet-700 text-violet-200 font-elden text-sm rounded-sm border border-violet-600 transition-all flex items-center gap-2"
+                      className="px-3 sm:px-4 py-2 bg-gradient-to-r from-violet-900 to-violet-800 hover:from-violet-800 hover:to-violet-700 text-violet-200 font-elden text-xs sm:text-sm rounded-sm border border-violet-600 transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
                       onClick={handleStartMystery}
                     >
                       <SparklesIcon className="w-4 h-4" />
-                      Accept Random Challenge
+                      Accept Challenge
                     </button>
                   ) : (
                     <button 
-                      className="px-4 py-2 bg-gradient-to-r from-emerald-900 to-emerald-800 hover:from-emerald-800 hover:to-emerald-700 text-emerald-200 font-elden text-sm rounded-sm border border-emerald-600 transition-all flex items-center gap-2"
+                      className="px-3 sm:px-4 py-2 bg-gradient-to-r from-emerald-900 to-emerald-800 hover:from-emerald-800 hover:to-emerald-700 text-emerald-200 font-elden text-xs sm:text-sm rounded-sm border border-emerald-600 transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
                       onClick={() => handleCompleteQuestNode(selectedNode.id)}
                     >
                       <TrophyIcon className="w-4 h-4" />
-                      Complete Quest (+{selectedNode.reward} XP)
+                      Complete (+{selectedNode.reward} XP)
                     </button>
                   )}
                 </div>
               )}
             </div>
             {selectedNode.reward > 0 && !allCompletedIds.has(selectedNode.id) && (
-              <div className="text-right">
+              <div className="text-right hidden sm:block">
                 <div className="text-xs text-[#8b8b7a]">XP Reward</div>
                 <div className="text-xl font-elden font-bold text-[#c9a227] flex items-center gap-1">
                   <StarIcon className="w-5 h-5" />
